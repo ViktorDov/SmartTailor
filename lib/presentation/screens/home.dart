@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_tailor/presentation/screens/add_order/repair/choose_order_type.dart';
+// import 'package:smart_tailor/presentation/screens/add_order/repair/create_order_data.dart';
+
+import '../widgets/custom_button.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String path = '/';
+  static const String name = 'homeScreen';
   const HomeScreen({super.key});
 
   @override
@@ -37,20 +44,32 @@ class HomeButtonFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
+      spacing: 30,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
+        CustomButtonWidget(
           onPressed: () {
-            Navigator.pushNamed(context, '/login');
+            context.goNamed(ChooseOrderTypeWidget.name);
           },
-          child: const Text('Login'),
+          text: 'Створити замовлення',
         ),
-        ElevatedButton(
+        CustomButtonWidget(
           onPressed: () {
-            Navigator.pushNamed(context, '/register');
+            // todo navigation
           },
-          child: const Text('Register'),
+          text: 'Видати замовлення',
+        ),
+        CustomButtonWidget(
+          onPressed: () {
+            // todo navigation
+          },
+          text: 'Актуальні замовлення',
+        ),
+        CustomButtonWidget(
+          onPressed: () {
+            // todo navigation
+          },
+          text: 'Налаштування',
         ),
       ],
     );
