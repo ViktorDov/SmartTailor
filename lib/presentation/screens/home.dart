@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_tailor/presentation/screens/add_order/repair/choose_order_type.dart';
+import 'package:smart_tailor/presentation/screens/add_order/repair/order_type/choose_order_type.dart';
 // import 'package:smart_tailor/presentation/screens/add_order/repair/create_order_data.dart';
 
 import '../widgets/custom_button.dart';
@@ -49,7 +49,7 @@ class HomeButtonFormWidget extends StatelessWidget {
       children: [
         CustomButtonWidget(
           onPressed: () {
-            context.goNamed(ChooseOrderTypeWidget.name);
+            context.goNamed(OrderTypeScreen.name);
           },
           text: 'Створити замовлення',
         ),

@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import '../screens/add_order/repair/choose_order_type.dart';
+import '../screens/add_order/repair/order_type/choose_order_type.dart';
 import '../screens/add_order/repair/create_order_data.dart';
 import '../screens/home.dart';
 
@@ -17,9 +17,9 @@ class Navigation {
         builder: (context, state) => const AddOrderScreenWidget(),
       ),
       GoRoute(
-        path: ChooseOrderTypeWidget.path,
-        name: ChooseOrderTypeWidget.name,
-        builder: (context, state) => const ChooseOrderTypeWidget(),
+        path: OrderTypeScreen.path,
+        name: OrderTypeScreen.name,
+        builder: (context, state) => const OrderTypeScreen(),
       ),
     ],
   );
