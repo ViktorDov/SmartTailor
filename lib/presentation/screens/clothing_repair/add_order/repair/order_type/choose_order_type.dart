@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tailor/presentation/screens/clothing_repair/cubit/repair_cubit.dart';
 import '../../../../home.dart' show HomeScreen;
 
 class OrderTypeScreen extends StatefulWidget {
   static const String path = '/choose_type';
   static const String name = 'chooseType';
-
   const OrderTypeScreen({super.key});
 
   @override
@@ -20,112 +20,86 @@ class _OrderTypeScreenState extends State<OrderTypeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Тип замовлення'),
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: Colors.white,
         leading: IconButton(
           onPressed: () => context.goNamed(HomeScreen.name),
           icon: const Icon(Icons.arrow_back),
         ),
       ),
-      body: BlocBuilder<RepairCubit, RepairState>(
-        builder: (context, state) {
-          return ListView.builder(
-            itemCount: state.orderTypeList.length,
-            itemBuilder: (context, index) {
-              String workType = state.orderTypeList[index];
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    return GestureDetector(
-                      onTapDown: (TapDownDetails details) {
-                        // double tapX = details.localPosition.dx;
-                        // double halfWidth = constraints.maxWidth / 2;
-                        // String side = tapX < halfWidth ? 'Ліва' : 'Права';
-                        context.read<RepairCubit>().addOrterType(workType);
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 16, horizontal: 20),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                        child: Center(
-                          child: Text(
-                            workType,
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 18),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              );
-            },
-          );
-        },
+      body: Column(
+        children: [
+          const OrderTypeList(),
+          const OrderTypeButton(),
+        ],
       ),
     );
   }
 }
 
-// class ChooseOrderTypeBody extends StatelessWidget {
-//   final List<String> workTypes = [
-    // "Усунення дірки",
-    // "Вставити замочок",
-    // "Підрубити",
-    // "Вкоротити",
-    // "Кармани",
-    // "Вставити замочок",
-    // "Підрубити",
-    // "Вкоротити",
-    // "Кармани",
-//   ];
+class OrderTypeList extends StatelessWidget {
+  const OrderTypeList({super.key});
 
-//   ChooseOrderTypeBody({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RepairCubit, RepairState>(builder: (context, state) {
+      final orderTypelist = state.orderTypeList;
+      return Expanded(
+        child: ListView.builder(
+          itemCount: orderTypelist.length,
+          itemBuilder: (context, index) {
+            String orderType = orderTypelist[index];
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () =>
+                    context.read<RepairCubit>().addOrterType(orderType),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Center(
+                    child: Text(
+                      orderType,
+                      style: GoogleFonts.abel(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    });
+  }
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       itemCount: ,
-//       itemBuilder: (context, index) {
-//         String workType = workTypes[index];
-//         return Padding(
-//           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-//           child: LayoutBuilder(
-//             builder: (context, constraints) {
-//               return GestureDetector(
-//                 onTapDown: (TapDownDetails details) {
-//                   double tapX = details.localPosition.dx;
-//                   double halfWidth = constraints.maxWidth / 2;
-//                   context.read<RepairCubit>().getCoins();
-//                   String side = tapX < halfWidth ? 'Ліва' : 'Права';
-//                   print('Натиснуто на $side сторону: $workType');
-//                 },
-//                 child: Container(
-//                   width: double.infinity, // Розтягується на всю ширину
-//                   padding:
-//                       const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-//                   decoration: BoxDecoration(
-//                     border: Border.all(color: Colors.black),
-//                     borderRadius: BorderRadius.circular(15),
-//                   ),
-//                   child: Center(
-//                     child: Text(
-//                       workType,
-//                       style: const TextStyle(color: Colors.black, fontSize: 18),
-//                     ),
-//                   ),
-//                 ),
-//               );
-//             },
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
+class OrderTypeButton extends StatefulWidget {
+  const OrderTypeButton({super.key});
+
+  @override
+  State<OrderTypeButton> createState() => _OrderTypeButtonState();
+}
+
+class _OrderTypeButtonState extends State<OrderTypeButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Center(
+        child: ElevatedButton(
+          onPressed: () {},
+          child: Text(
+            "Вибрати замовлення",
+            style: GoogleFonts.poppins(color: Colors.black),
+          ),
+        ),
+      ),
+    );
+  }
+}
