@@ -43,12 +43,12 @@ class OrderTypeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RepairCubit, RepairState>(builder: (context, state) {
-      final orderTypelist = state.orderTypeList;
+      final orderTypeList = state.orderTypeList;
       return Expanded(
         child: ListView.builder(
-          itemCount: orderTypelist.length,
+          itemCount: orderTypeList.length,
           itemBuilder: (context, index) {
-            String orderType = orderTypelist[index];
+            String orderType = orderTypeList[index];
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
@@ -95,7 +95,7 @@ class _OrderTypeButtonState extends State<OrderTypeButton> {
         child: ElevatedButton(
           onPressed: () {},
           child: Text(
-            "Вибрати замовлення",
+            "Підтвердити замовлення",
             style: GoogleFonts.poppins(color: Colors.black),
           ),
         ),
