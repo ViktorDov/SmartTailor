@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_tailor/presentation/screens/clothing_repair/add_order/repair/order_type/choose_order_type.dart';
+import 'package:smart_tailor/presentation/screens/clothing_repair/order/order_type/order_type_screen.dart';
 // import 'package:smart_tailor/presentation/screens/add_order/repair/create_order_data.dart';
 
 import '../widgets/custom_button.dart';

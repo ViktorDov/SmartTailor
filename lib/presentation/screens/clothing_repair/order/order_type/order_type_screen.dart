@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tailor/presentation/screens/clothing_repair/cubit/repair_cubit.dart';
-import '../../../../home.dart' show HomeScreen;
+import '../../../home.dart';
 
 class OrderTypeScreen extends StatefulWidget {
   static const String path = '/choose_type';

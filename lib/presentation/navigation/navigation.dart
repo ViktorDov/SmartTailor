@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import '../screens/clothing_repair/add_order/repair/order_type/choose_order_type.dart';
-import '../screens/clothing_repair/add_order/repair/create_order_data.dart';
+import '../screens/clothing_repair/order/order_type/order_type_screen.dart';
+import '../screens/clothing_repair/order/consumer_data/create_order_data.dart';
 import '../screens/home.dart';
 
 class Navigation {
