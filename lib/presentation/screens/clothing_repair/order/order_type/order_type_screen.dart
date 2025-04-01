@@ -89,17 +89,27 @@ class OrderTypeButton extends StatefulWidget {
 class _OrderTypeButtonState extends State<OrderTypeButton> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Center(
-        child: ElevatedButton(
-          onPressed: () {},
-          child: Text(
-            "Підтвердити замовлення",
-            style: GoogleFonts.poppins(color: Colors.black),
+    return BlocSelector<RepairCubit, RepairState, int>(
+      selector: (state) => state.selectedOrders.length,
+      builder: (context, orderCount) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Center(
+            child: Column(
+              children: [
+                Text('Count order: $orderCount'),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Підтвердити замовлення",
+                    style: GoogleFonts.poppins(color: Colors.black),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

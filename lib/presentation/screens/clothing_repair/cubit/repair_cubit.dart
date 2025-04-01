@@ -7,8 +7,7 @@ class RepairCubit extends Cubit<RepairState> {
   RepairCubit() : super(const RepairState());
 
   void addOrterType(String type) {
-    final List<String> list = List.from(state.choosedOrderTypeList);
-    list.add(type);
-    emit(state.copyWith(choosedOrderTypeList: list));
+    final List<String> newList = List.from(state.selectedOrders)..add(type);
+    emit(state.copyWith(selectedOrders: newList));
   }
 }

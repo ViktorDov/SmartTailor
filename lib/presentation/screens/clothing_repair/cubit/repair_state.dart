@@ -6,7 +6,7 @@ enum ButtonState { enable, disable, pressed }
 class RepairState extends Equatable {
   final ButtonState buttonState;
   final List<String> orderTypeList;
-  final List<String> choosedOrderTypeList;
+  final List<String> selectedOrders;
   const RepairState({
     this.buttonState = ButtonState.disable,
     this.orderTypeList = const <String>[
@@ -20,21 +20,21 @@ class RepairState extends Equatable {
       "Вкоротити",
       "Кармани"
     ],
-    this.choosedOrderTypeList = const <String>[],
+    this.selectedOrders = const <String>[],
   });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [buttonState, orderTypeList, selectedOrders];
 
   RepairState copyWith({
     ButtonState? buttonState,
     List<String>? orderTypeList,
-    List<String>? choosedOrderTypeList,
+    List<String>? selectedOrders,
   }) {
     return RepairState(
       buttonState: buttonState ?? this.buttonState,
       orderTypeList: orderTypeList ?? this.orderTypeList,
-      choosedOrderTypeList: choosedOrderTypeList ?? this.choosedOrderTypeList,
+      selectedOrders: selectedOrders ?? this.selectedOrders,
     );
   }
 }
