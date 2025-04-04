@@ -42,40 +42,51 @@ class OrderTypeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RepairCubit, RepairState>(builder: (context, state) {
-      final orderTypeList = state.orderTypeList;
-      return Expanded(
-        child: ListView.builder(
-          itemCount: orderTypeList.length,
-          itemBuilder: (context, index) {
-            String orderType = orderTypeList[index];
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GestureDetector(
-                onTap: () =>
-                    context.read<RepairCubit>().addOrterType(orderType),
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 40),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: Text(
-                      orderType,
-                      style: GoogleFonts.abel(
-                        color: Colors.black,
-                        fontSize: 16,
+    return BlocBuilder<RepairCubit, RepairState>(
+      builder: (context, state) {
+        final orderTypeList = state.orderTypeList;
+        return Expanded(
+          child: ListView.builder(
+            itemCount: orderTypeList.length,
+            itemBuilder: (context, index) {
+              String order = orderTypeList[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return GestureDetector(
+                      onTapDown: (TapDownDetails details) {
+                        double tapX = details.localPosition.dx;
+                        double halfWidth = constraints.maxWidth / 2;
+                        context.read<RepairCubit>().onTapOrderElement(
+                            tapX: tapX, halfWidth: halfWidth, order: order);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 40),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Center(
+                          child: Text(
+                            order,
+                            style: GoogleFonts.abel(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
-              ),
-            );
-          },
-        ),
-      );
-    });
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }
 

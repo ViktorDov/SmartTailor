@@ -7,8 +7,12 @@ class RepairState extends Equatable {
   final ButtonState buttonState;
   final List<String> orderTypeList;
   final List<String> selectedOrders;
+  final OrderData? orderData;
+
   const RepairState({
     this.buttonState = ButtonState.disable,
+    this.orderData,
+    this.selectedOrders = const <String>[],
     this.orderTypeList = const <String>[
       "Усунення дірки",
       "Вставити замочок",
@@ -20,21 +24,41 @@ class RepairState extends Equatable {
       "Вкоротити",
       "Кармани"
     ],
-    this.selectedOrders = const <String>[],
   });
 
   @override
-  List<Object> get props => [buttonState, orderTypeList, selectedOrders];
+  List<Object?> get props =>
+      [buttonState, orderTypeList, selectedOrders, orderData];
 
   RepairState copyWith({
     ButtonState? buttonState,
     List<String>? orderTypeList,
     List<String>? selectedOrders,
+    OrderData? orderData,
   }) {
     return RepairState(
       buttonState: buttonState ?? this.buttonState,
       orderTypeList: orderTypeList ?? this.orderTypeList,
       selectedOrders: selectedOrders ?? this.selectedOrders,
+      orderData: orderData ?? this.orderData,
     );
   }
+}
+
+class OrderData {
+  final String customerName;
+  final String customerSecondName;
+  final String customerPhone;
+  final String masterTailor;
+  final DateTime orderDeadline;
+  final int totalPrice;
+
+  OrderData({
+    required this.customerName,
+    required this.customerSecondName,
+    required this.customerPhone,
+    required this.masterTailor,
+    required this.orderDeadline,
+    required this.totalPrice,
+  });
 }
