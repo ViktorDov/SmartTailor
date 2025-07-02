@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import '../screens/clothing_repair/order/order_type/order_type_screen.dart';
-import '../screens/clothing_repair/order/consumer_data/create_order_data.dart';
+import '../screens/clothing_repair/order_screens/order_type/order_type_screen.dart';
+import '../screens/clothing_repair/order_screens/order_form/order_form_screen.dart';
 import '../screens/home.dart';
 
 class Navigation {
@@ -12,9 +12,9 @@ class Navigation {
         builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
-        path: AddOrderScreenWidget.path,
-        name: AddOrderScreenWidget.name,
-        builder: (context, state) => const AddOrderScreenWidget(),
+        path: OrderFormScreen.path,
+        name: OrderFormScreen.name,
+        builder: (context, state) => const OrderFormScreen(),
       ),
       GoRoute(
         path: OrderTypeScreen.path,

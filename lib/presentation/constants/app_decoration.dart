@@ -18,7 +18,7 @@ class TextFiledInputDecorations {
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.grey),
+        borderSide: BorderSide(color: Colors.black),
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
     );

@@ -108,9 +108,10 @@ class _OrderTypeButtonState extends State<OrderTypeButton> {
           child: Center(
             child: Column(
               children: [
-                Text('Count order: $orderCount'),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<RepairCubit>().onTapButtonOrderType(context);
+                  },
                   child: Text(
                     "Підтвердити замовлення",
                     style: GoogleFonts.poppins(color: Colors.black),
