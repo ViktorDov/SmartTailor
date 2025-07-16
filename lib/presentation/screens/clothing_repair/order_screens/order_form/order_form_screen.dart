@@ -39,7 +39,6 @@ class OrderFormBody extends StatelessWidget {
           children: [
             ConsumerDataFormWidget(),
             const SizedBox(height: 10),
-            OrderInfoFormWidget(),
           ],
         ),
       ),
@@ -66,6 +65,10 @@ class ConsumerDataFormWidget extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           const PhoneTextField(),
+          const SizedBox(height: 10),
+          const PriceTextField(),
+          const SizedBox(height: 10),
+          const DatePickerFormWidget(),
         ],
       ),
     );
@@ -117,19 +120,18 @@ class PhoneTextField extends StatelessWidget {
   }
 }
 
-class OrderInfoFormWidget extends StatelessWidget {
-  const OrderInfoFormWidget({super.key});
-
+class PriceTextField extends StatelessWidget {
+  const PriceTextField({super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RepairCubit, RepairState>(builder: (context, state) {
-      return Column(
-        children: [
-          Text('name: ${state.customerName}'),
-          Text('secondName: ${state.customerSecondName}')
-        ],
-      );
-    });
+    return TextField(
+      onChanged: (value) =>
+          context.read<RepairCubit>().priceChanged(value.compareTo(value)),
+      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+      decoration: TextFiledInputDecorations(hintText: 'Ціна замовлення')
+          .inputDecoration,
+      keyboardType: TextInputType.number,
+    );
   }
 }
 
@@ -151,7 +153,7 @@ class DatePickerFormWidget extends StatelessWidget {
       },
       child: Container(
         margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
         decoration: BoxDecoration(
           color: AppColors.backgroundColor,
           border: Border.all(color: AppColors.textPrimary),

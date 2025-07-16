@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tailor/presentation/screens/clothing_repair/cubit/repair_cubit.dart';
 import '../../../home.dart';
+import 'cubit/order_type_cubit.dart';
 
 class OrderTypeScreen extends StatefulWidget {
   static const String path = '/choose_type';
@@ -42,7 +43,7 @@ class OrderTypeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RepairCubit, RepairState>(
+    return BlocBuilder<OrderTypeCubit, OrderTypeState>(
       builder: (context, state) {
         final orderTypeList = state.orderTypeList;
         return Expanded(
@@ -58,7 +59,7 @@ class OrderTypeList extends StatelessWidget {
                       onTapDown: (TapDownDetails details) {
                         double tapX = details.localPosition.dx;
                         double halfWidth = constraints.maxWidth / 2;
-                        context.read<RepairCubit>().onTapOrderElement(
+                        context.read<OrderTypeCubit>().onTapOrderElement(
                             tapX: tapX, halfWidth: halfWidth, order: order);
                       },
                       child: Container(
@@ -100,7 +101,7 @@ class OrderTypeButton extends StatefulWidget {
 class _OrderTypeButtonState extends State<OrderTypeButton> {
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<RepairCubit, RepairState, int>(
+    return BlocSelector<OrderTypeCubit, OrderTypeState, int>(
       selector: (state) => state.selectedOrders.length,
       builder: (context, orderCount) {
         return Padding(
@@ -110,7 +111,7 @@ class _OrderTypeButtonState extends State<OrderTypeButton> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    context.read<RepairCubit>().onTapButtonOrderType(context);
+                    context.read<OrderTypeCubit>().onTapButtonOrderType();
                   },
                   child: Text(
                     "Підтвердити замовлення",
