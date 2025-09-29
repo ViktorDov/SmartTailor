@@ -17,10 +17,7 @@ class _OrderFormScreenState extends State<OrderFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Замовлення'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text('Замовлення'), centerTitle: true),
       body: OrderFormBody(),
     );
   }
@@ -36,10 +33,7 @@ class OrderFormBody extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ConsumerDataFormWidget(),
-            const SizedBox(height: 10),
-          ],
+          children: [ConsumerDataFormWidget(), const SizedBox(height: 10)],
         ),
       ),
     );
@@ -83,7 +77,7 @@ class NameTextField extends StatelessWidget {
     return TextField(
       onChanged: (value) => context.read<RepairCubit>().nameChanged(value),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: TextFiledInputDecorations(hintText: 'Ім\'я').inputDecoration,
+      decoration: TextFiledInputDecorations(lableText: 'Ім\'я').inputDecoration,
     );
   }
 }
@@ -97,8 +91,9 @@ class MiddleNameTextField extends StatelessWidget {
       onChanged: (value) =>
           context.read<RepairCubit>().middleNameChanged(value),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration:
-          TextFiledInputDecorations(hintText: 'По батькові').inputDecoration,
+      decoration: TextFiledInputDecorations(
+        lableText: 'По батькові',
+      ).inputDecoration,
     );
   }
 }
@@ -113,8 +108,9 @@ class PhoneTextField extends StatelessWidget {
         context.read<RepairCubit>().phoneChanged(value.compareTo(value));
       },
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration:
-          TextFiledInputDecorations(hintText: 'Номер телефону').inputDecoration,
+      decoration: TextFiledInputDecorations(
+        lableText: 'Номер телефону',
+      ).inputDecoration,
       keyboardType: TextInputType.number,
     );
   }
@@ -128,8 +124,9 @@ class PriceTextField extends StatelessWidget {
       onChanged: (value) =>
           context.read<RepairCubit>().priceChanged(value.compareTo(value)),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: TextFiledInputDecorations(hintText: 'Ціна замовлення')
-          .inputDecoration,
+      decoration: TextFiledInputDecorations(
+        lableText: 'Ціна замовлення',
+      ).inputDecoration,
       keyboardType: TextInputType.number,
     );
   }
@@ -142,10 +139,11 @@ class DatePickerFormWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         DateTime? pickedDate = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2025),
-            lastDate: DateTime(2050));
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(2025),
+          lastDate: DateTime(2050),
+        );
 
         if (pickedDate != null) {
           print('Date: ${pickedDate.toString()}');
@@ -157,9 +155,7 @@ class DatePickerFormWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.backgroundColor,
           border: Border.all(color: AppColors.textPrimary),
-          borderRadius: BorderRadius.all(
-            Radius.circular(16),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         child: Text('01/01/2025'),
       ),

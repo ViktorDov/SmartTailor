@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smart_tailor/presentation/screens/clothing_repair/cubit/repair_cubit.dart';
 import '../../../home.dart';
+import '../order_form/order_form_screen.dart';
 import 'cubit/order_type_cubit.dart';
 
 class OrderTypeScreen extends StatefulWidget {
@@ -28,12 +28,7 @@ class _OrderTypeScreenState extends State<OrderTypeScreen> {
           icon: const Icon(Icons.arrow_back),
         ),
       ),
-      body: Column(
-        children: [
-          const OrderTypeList(),
-          const OrderTypeButton(),
-        ],
-      ),
+      body: Column(children: [const OrderTypeList(), const OrderTypeButton()]),
     );
   }
 }
@@ -60,11 +55,16 @@ class OrderTypeList extends StatelessWidget {
                         double tapX = details.localPosition.dx;
                         double halfWidth = constraints.maxWidth / 2;
                         context.read<OrderTypeCubit>().onTapOrderElement(
-                            tapX: tapX, halfWidth: halfWidth, order: order);
+                          tapX: tapX,
+                          halfWidth: halfWidth,
+                          order: order,
+                        );
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 16, horizontal: 40),
+                          vertical: 16,
+                          horizontal: 40,
+                        ),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.black),
                           borderRadius: BorderRadius.circular(16),
@@ -91,38 +91,37 @@ class OrderTypeList extends StatelessWidget {
   }
 }
 
-class OrderTypeButton extends StatefulWidget {
+class OrderTypeButton extends StatelessWidget {
   const OrderTypeButton({super.key});
 
   @override
-  State<OrderTypeButton> createState() => _OrderTypeButtonState();
-}
-
-class _OrderTypeButtonState extends State<OrderTypeButton> {
-  @override
   Widget build(BuildContext context) {
-    return BlocSelector<OrderTypeCubit, OrderTypeState, int>(
-      selector: (state) => state.selectedOrders.length,
-      builder: (context, orderCount) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: Center(
-            child: Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<OrderTypeCubit>().onTapButtonOrderType();
-                  },
-                  child: Text(
-                    "Підтвердити замовлення",
-                    style: GoogleFonts.poppins(color: Colors.black),
-                  ),
-                ),
-              ],
+    return BlocListener<OrderTypeCubit, OrderTypeState>(
+      listenWhen: (prev, curr) => prev.orderTypeStatus != curr.orderTypeStatus,
+      listener: (context, state) {
+        if (state.orderTypeStatus == OrderTypeStatus.error &&
+            state.errorMessage != null) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+        } else if (state.orderTypeStatus == OrderTypeStatus.success) {
+          context.pushNamed(OrderFormScreen.name);
+          context.read<OrderTypeCubit>().resetStatus();
+        }
+      },
+      child: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              context.read<OrderTypeCubit>().onTapButtonOrderType();
+            },
+            child: Text(
+              "Підтвердити замовлення",
+              style: GoogleFonts.poppins(color: Colors.black),
             ),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }

@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:smart_tailor/presentation/constants/app_colors.dart';
 
 class TextFiledInputDecorations {
-  final String hintText;
+  final String lableText;
 
-  const TextFiledInputDecorations({required this.hintText});
+  const TextFiledInputDecorations({required this.lableText});
 
   InputDecoration get inputDecoration {
     return InputDecoration(
-      hintText: hintText,
-      hintStyle: const TextStyle(color: Colors.grey),
       filled: true,
       fillColor: AppColors.backgroundColor,
+      label: Text(lableText),
       labelStyle: TextStyle(color: AppColors.textSecondary),
       enabledBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: AppColors.textSecondary),

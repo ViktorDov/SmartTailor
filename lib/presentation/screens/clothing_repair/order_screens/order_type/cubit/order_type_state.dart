@@ -1,34 +1,44 @@
 part of 'order_type_cubit.dart';
 
-enum ButtonState { enable, disable, pressed }
+enum OrderTypeStatus { initial, success, error, loading }
 
 class OrderTypeState extends Equatable {
   final List<String> orderTypeList;
   final List<String> selectedOrders;
-  final String orderTypeError;
-  final ButtonState buttonState;
+  final String? errorMessage;
+  final OrderTypeStatus orderTypeStatus;
+  final bool navigateNext;
 
-  const OrderTypeState(
-      {this.orderTypeList = const <String>[],
-      this.selectedOrders = const <String>[],
-      this.orderTypeError = '',
-      this.buttonState = ButtonState.disable});
+  const OrderTypeState({
+    this.orderTypeList = const <String>[],
+    this.selectedOrders = const <String>[],
+    this.errorMessage,
+    this.orderTypeStatus = OrderTypeStatus.initial,
+    this.navigateNext = false,
+  });
 
   @override
-  List<Object> get props =>
-      [orderTypeList, selectedOrders, orderTypeError, buttonState];
+  List<Object?> get props => [
+        orderTypeList,
+        selectedOrders,
+        errorMessage,
+        orderTypeStatus,
+        navigateNext
+      ];
 
   OrderTypeState copyWith({
     List<String>? orderTypeList,
     List<String>? selectedOrders,
-    String? orderTypeError,
-    ButtonState? buttonState,
+    String? errorMessage,
+    OrderTypeStatus? orderTypeStatus,
+    bool? navigateNext,
   }) {
     return OrderTypeState(
       orderTypeList: orderTypeList ?? this.orderTypeList,
       selectedOrders: selectedOrders ?? this.selectedOrders,
-      orderTypeError: orderTypeError ?? this.orderTypeError,
-      buttonState: buttonState ?? this.buttonState,
+      errorMessage: errorMessage ?? this.errorMessage,
+      orderTypeStatus: orderTypeStatus ?? this.orderTypeStatus,
+      navigateNext: navigateNext ?? this.navigateNext,
     );
   }
 }

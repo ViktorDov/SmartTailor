@@ -7,12 +7,12 @@ class ServiceDataProvider {
   static const String _key = 'serviceOrderTypeListkey';
   final List<String> _deffoltServices = AppConstants.serviceTypeList;
 
-  Future<List<String>> get() async {
+  Future<List<String>> getService() async {
     final box = await Hive.openBox(_serviceBox);
     return box.get(_key, defaultValue: _deffoltServices)!;
   }
 
-  Future<void> put(String service) async {
+  Future<void> putService(String service) async {
     final box = await Hive.openBox(_serviceBox);
     final current = box.get(_key, defaultValue: _deffoltServices)!;
     if (!current.contains(service)) {

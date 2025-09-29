@@ -5,7 +5,7 @@ part 'repair_state.dart';
 
 class RepairCubit extends Cubit<RepairState> {
   // final _serviceDataProvider = ServiceDataProvider();
-  RepairCubit() : super(const RepairState()) {}
+  RepairCubit() : super(const RepairState());
 
   void nameChanged(String name) {
     print('set name: $name');
@@ -24,5 +24,9 @@ class RepairCubit extends Cubit<RepairState> {
 
   void priceChanged(int orderPrice) {
     emit(state.copyWith(orderPrice: orderPrice));
+  }
+
+  void setDeadline(DateTime deadline) {
+    emit(state.copyWith(orderDeadline: deadline));
   }
 }

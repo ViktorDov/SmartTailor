@@ -16,7 +16,7 @@ class OrderTypeCubit extends Cubit<OrderTypeState> {
   }
 
   Future<void> getOrdersType() async {
-    final listOrderTypes = await _serviceDataProvider.get();
+    final listOrderTypes = await _serviceDataProvider.getService();
     emit(state.copyWith(orderTypeList: listOrderTypes));
     _serviceDataProvider.closeBox();
   }
@@ -44,14 +44,26 @@ class OrderTypeCubit extends Cubit<OrderTypeState> {
   }
 
   Future<void> onTapButtonOrderType() async {
+    resetStatus();
     if (state.selectedOrders.isEmpty) {
       emit(
-        state.copyWith(orderTypeError: 'Будь ласка виберіть тип замовлення'),
+        state.copyWith(
+            errorMessage: 'Будь ласка виберіть тип замовлення',
+            orderTypeStatus: OrderTypeStatus.error),
       );
-    } else {
-      await _serviceDataProvider.saveOrderType(state.selectedOrders);
-      print('OrderType: ${state.selectedOrders} WAS SAVED!');
-      // todo:  ^navigation
+      return;
     }
+
+    emit(state.copyWith(orderTypeStatus: OrderTypeStatus.loading));
+    await _serviceDataProvider.saveOrderType(state.selectedOrders);
+    print('OrderType: ${state.selectedOrders} WAS SAVED!');
+    emit(state.copyWith(orderTypeStatus: OrderTypeStatus.success));
+  }
+
+  void resetStatus() {
+    emit(state.copyWith(
+      errorMessage: null,
+      orderTypeStatus: OrderTypeStatus.initial,
+    ));
   }
 }
