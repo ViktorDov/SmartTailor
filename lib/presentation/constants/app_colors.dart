@@ -10,6 +10,7 @@ class AppColors {
   static const Color errorColor = Color(0xFFEB5757); // Колір помилки
   static const Color appBarColor = Color(0xFF1E3A8A); // Колір App Bar
   static const Color appBarTextColor = Color(0xFFFFFFFF);
+  static const Color blueSelectedColor = Color(0xFFE3F2FD);
 
   // Текст на App Bar
 }

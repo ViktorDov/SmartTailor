@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:smart_tailor/core/constants/app_constants.dart';
 
+import '../entity/order_type_card.dart';
+
 class ServiceDataProvider {
   static const String _serviceBox = 'serviceBox';
   static const String _orderTypeBox = 'orderType';
@@ -23,14 +25,14 @@ class ServiceDataProvider {
     }
   }
 
-  Future<void> saveOrderType(List<String> orderType) async {
+  Future<void> saveOrderType(List<OrderType> orderType) async {
     final box = await Hive.openBox(_orderTypeBox);
     await box.clear();
     await box.put(_key, orderType);
     closeBox();
   }
 
-  Future<List<String>> getOrderType() async {
+  Future<List<OrderType>> getOrderType() async {
     final box = await Hive.openBox(_orderTypeBox);
     return box.get(_orderTypeBox);
   }

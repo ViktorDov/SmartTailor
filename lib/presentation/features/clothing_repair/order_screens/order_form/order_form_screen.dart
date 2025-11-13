@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_tailor/presentation/constants/app_colors.dart';
-import 'package:smart_tailor/presentation/screens/clothing_repair/cubit/repair_cubit.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/cubit/order_cubit.dart';
 import '../../../../constants/app_decoration.dart';
 
 class OrderFormScreen extends StatefulWidget {
@@ -17,8 +17,8 @@ class _OrderFormScreenState extends State<OrderFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Замовлення'), centerTitle: true),
-      body: OrderFormBody(),
+      appBar: AppBar(title: const Text('Замовлення'), centerTitle: true),
+      body: const OrderFormBody(),
     );
   }
 }
@@ -28,12 +28,12 @@ class OrderFormBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [ConsumerDataFormWidget(), const SizedBox(height: 10)],
+          children: [ConsumerDataFormWidget(), SizedBox(height: 10)],
         ),
       ),
     );
@@ -45,24 +45,24 @@ class ConsumerDataFormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
-            children: const [
+            children: [
               Expanded(child: NameTextField()),
               SizedBox(width: 20),
               Expanded(child: MiddleNameTextField()),
             ],
           ),
-          const SizedBox(height: 10),
-          const PhoneTextField(),
-          const SizedBox(height: 10),
-          const PriceTextField(),
-          const SizedBox(height: 10),
-          const DatePickerFormWidget(),
+          SizedBox(height: 10),
+          PhoneTextField(),
+          SizedBox(height: 10),
+          PriceTextField(),
+          SizedBox(height: 10),
+          DatePickerFormWidget(),
         ],
       ),
     );
@@ -75,9 +75,11 @@ class NameTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: (value) => context.read<RepairCubit>().nameChanged(value),
+      onChanged: (value) => context.read<RepairOrderCubit>().nameChanged(value),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: TextFiledInputDecorations(lableText: 'Ім\'я').inputDecoration,
+      decoration: const TextFiledInputDecorations(
+        lableText: 'Ім\'я',
+      ).inputDecoration,
     );
   }
 }
@@ -89,9 +91,9 @@ class MiddleNameTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (value) =>
-          context.read<RepairCubit>().middleNameChanged(value),
+          context.read<RepairOrderCubit>().middleNameChanged(value),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: TextFiledInputDecorations(
+      decoration: const TextFiledInputDecorations(
         lableText: 'По батькові',
       ).inputDecoration,
     );
@@ -105,10 +107,10 @@ class PhoneTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (value) {
-        context.read<RepairCubit>().phoneChanged(value.compareTo(value));
+        context.read<RepairOrderCubit>().phoneChanged(value.compareTo(value));
       },
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: TextFiledInputDecorations(
+      decoration: const TextFiledInputDecorations(
         lableText: 'Номер телефону',
       ).inputDecoration,
       keyboardType: TextInputType.number,
@@ -122,9 +124,9 @@ class PriceTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (value) =>
-          context.read<RepairCubit>().priceChanged(value.compareTo(value)),
+          context.read<RepairOrderCubit>().priceChanged(value.compareTo(value)),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: TextFiledInputDecorations(
+      decoration: const TextFiledInputDecorations(
         lableText: 'Ціна замовлення',
       ).inputDecoration,
       keyboardType: TextInputType.number,
@@ -138,7 +140,7 @@ class DatePickerFormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        DateTime? pickedDate = await showDatePicker(
+        final DateTime? pickedDate = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
           firstDate: DateTime(2025),
@@ -155,9 +157,9 @@ class DatePickerFormWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.backgroundColor,
           border: Border.all(color: AppColors.textPrimary),
-          borderRadius: BorderRadius.all(Radius.circular(16)),
+          borderRadius: const BorderRadius.all(Radius.circular(16)),
         ),
-        child: Text('01/01/2025'),
+        child: const Text('01/01/2025'),
       ),
     );
   }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_decoration.dart';
+import '../../../constants/app_decoration.dart';
 
-class DatePickerField extends StatelessWidget {
+class CustomDatePickerField extends StatelessWidget {
   final String label;
   final DateTime? selectedDate;
   final Function(DateTime) onDateSelected;
 
-  const DatePickerField({
+  const CustomDatePickerField({
     super.key,
     required this.label,
     required this.selectedDate,
@@ -28,7 +28,7 @@ class DatePickerField extends StatelessWidget {
           builder: (context, child) {
             return Theme(
               data: Theme.of(context).copyWith(
-                colorScheme: ColorScheme.light(
+                colorScheme: const ColorScheme.light(
                   primary: Colors.black,
                   onPrimary: Colors.white,
                   onSurface: Colors.black,
@@ -46,8 +46,8 @@ class DatePickerField extends StatelessWidget {
       controller: TextEditingController(
         text: selectedDate != null
             ? "${selectedDate!.day.toString().padLeft(2, '0')}/"
-                "${selectedDate!.month.toString().padLeft(2, '0')}/"
-                "${selectedDate!.year}"
+                  "${selectedDate!.month.toString().padLeft(2, '0')}/"
+                  "${selectedDate!.year}"
             : '',
       ),
     );

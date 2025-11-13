@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-part 'repair_state.dart';
+part 'order_state.dart';
 
-class RepairCubit extends Cubit<RepairState> {
+class RepairOrderCubit extends Cubit<RepairOrderState> {
   // final _serviceDataProvider = ServiceDataProvider();
-  RepairCubit() : super(const RepairState());
+  RepairOrderCubit() : super(const RepairOrderState());
 
   void nameChanged(String name) {
     print('set name: $name');
@@ -14,7 +14,7 @@ class RepairCubit extends Cubit<RepairState> {
 
   void middleNameChanged(String secondName) {
     print('set secondName: $secondName');
-    emit(state.copyWith(customerSecondName: secondName));
+    emit(state.copyWith(customerMiddleName: secondName));
   }
 
   void phoneChanged(int phoneNumber) {

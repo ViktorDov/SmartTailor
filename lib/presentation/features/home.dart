@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_tailor/presentation/screens/clothing_repair/order_screens/order_type/order_type_screen.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/order_screens/order_type/order_type_screen.dart';
 // import 'package:smart_tailor/presentation/screens/add_order/repair/create_order_data.dart';
 
 import '../widgets/custom_button.dart';
@@ -31,8 +31,8 @@ class HomeScreenBody extends StatelessWidget {
         title: const Text('Smart Tailor'),
         centerTitle: true,
       ),
-      body: Center(
-        child: const HomeButtonFormWidget(),
+      body: const Center(
+        child: HomeButtonFormWidget(),
       ),
     );
   }

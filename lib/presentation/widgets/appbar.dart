@@ -14,10 +14,11 @@ class AppBarWidget extends StatelessWidget {
       centerTitle: true,
       backgroundColor: Colors.white,
       leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: Icon(Icons.arrow_back)),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        icon: const Icon(Icons.arrow_back),
+      ),
     );
   }
 }

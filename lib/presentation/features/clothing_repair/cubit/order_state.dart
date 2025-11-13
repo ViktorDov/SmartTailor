@@ -1,21 +1,18 @@
-part of 'repair_cubit.dart';
+part of 'order_cubit.dart';
 
 enum ButtonState { enable, disable, pressed }
 
-class RepairState extends Equatable {
-  final ButtonState buttonState;
-
+class RepairOrderState extends Equatable {
   final String? customerName;
-  final String? customerSecondName;
+  final String? customerMiddleName;
   final int? customerPhone;
   final String? masterTailor;
   final DateTime? orderDeadline;
   final int? orderPrice;
 
-  const RepairState({
-    this.buttonState = ButtonState.disable,
+  const RepairOrderState({
     this.customerName,
-    this.customerSecondName,
+    this.customerMiddleName,
     this.customerPhone,
     this.masterTailor,
     this.orderDeadline,
@@ -24,28 +21,26 @@ class RepairState extends Equatable {
 
   @override
   List<Object?> get props => [
-        buttonState,
-        customerName,
-        customerSecondName,
-        customerPhone,
-        masterTailor,
-        orderDeadline,
-        orderPrice,
-      ];
+    customerName,
+    customerMiddleName,
+    customerPhone,
+    masterTailor,
+    orderDeadline,
+    orderPrice,
+  ];
 
-  RepairState copyWith({
+  RepairOrderState copyWith({
     ButtonState? buttonState,
     String? customerName,
-    String? customerSecondName,
+    String? customerMiddleName,
     int? customerPhone,
     String? masterTailor,
     DateTime? orderDeadline,
     int? orderPrice,
   }) {
-    return RepairState(
-      buttonState: buttonState ?? this.buttonState,
+    return RepairOrderState(
       customerName: customerName ?? this.customerName,
-      customerSecondName: customerSecondName ?? this.customerSecondName,
+      customerMiddleName: customerMiddleName ?? this.customerMiddleName,
       customerPhone: customerPhone ?? this.customerPhone,
       masterTailor: masterTailor ?? this.masterTailor,
       orderDeadline: orderDeadline ?? this.orderDeadline,

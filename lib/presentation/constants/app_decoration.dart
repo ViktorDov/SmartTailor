@@ -11,7 +11,7 @@ class TextFiledInputDecorations {
       filled: true,
       fillColor: AppColors.backgroundColor,
       label: Text(lableText),
-      labelStyle: TextStyle(color: AppColors.textSecondary),
+      labelStyle: const TextStyle(color: AppColors.textSecondary),
       enabledBorder: const OutlineInputBorder(
         borderSide: BorderSide(color: AppColors.textSecondary),
         borderRadius: BorderRadius.all(Radius.circular(10)),
