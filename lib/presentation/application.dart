@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_tailor/presentation/features/clothing_repair/cubit/order_cubit.dart';
-import 'package:smart_tailor/presentation/features/clothing_repair/order_screens/order_type/cubit/order_type_cubit.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/presentation/cubit/order_cubit.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/presentation/screens/order_type/cubit/order_type_cubit.dart';
 
 import 'navigation/navigation.dart';
 

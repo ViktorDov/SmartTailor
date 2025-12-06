@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'package:smart_tailor/presentation/features/clothing_repair/order_screens/confirm_order/confirm_screen.dart';
-import '../features/clothing_repair/order_screens/order_type/order_type_screen.dart';
-import '../features/clothing_repair/order_screens/order_form/order_form_screen.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/presentation/screens/confirm_order/confirm_screen.dart';
+import '../features/clothing_repair/presentation/screens/order_type/order_type_screen.dart';
+import '../features/clothing_repair/presentation/screens/order_form/order_form_screen.dart';
 import '../features/home.dart';
 
 class Navigation {

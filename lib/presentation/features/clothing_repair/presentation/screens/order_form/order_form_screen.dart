@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_tailor/presentation/constants/app_colors.dart';
-import 'package:smart_tailor/presentation/features/clothing_repair/cubit/order_cubit.dart';
-import '../../../../constants/app_decoration.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/presentation/cubit/order_cubit.dart';
+import '../../../../../constants/app_decoration.dart';
 
 class OrderFormScreen extends StatefulWidget {
   static const String path = '/order_form';
@@ -17,7 +17,10 @@ class _OrderFormScreenState extends State<OrderFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Замовлення'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Замовлення'),
+        centerTitle: true,
+      ),
       body: const OrderFormBody(),
     );
   }
@@ -33,7 +36,10 @@ class OrderFormBody extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [ConsumerDataFormWidget(), SizedBox(height: 10)],
+          children: [
+            ConsumerDataFormWidget(),
+            SizedBox(height: 10),
+          ],
         ),
       ),
     );
@@ -52,7 +58,9 @@ class ConsumerDataFormWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: NameTextField()),
+              Expanded(
+                child: NameTextField(),
+              ),
               SizedBox(width: 20),
               Expanded(child: MiddleNameTextField()),
             ],
@@ -70,12 +78,13 @@ class ConsumerDataFormWidget extends StatelessWidget {
 }
 
 class NameTextField extends StatelessWidget {
-  const NameTextField({super.key});
+  const NameTextField({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      onChanged: (value) => context.read<RepairOrderCubit>().nameChanged(value),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: const TextFiledInputDecorations(
         lableText: 'Ім\'я',
@@ -138,6 +147,7 @@ class DatePickerFormWidget extends StatelessWidget {
   const DatePickerFormWidget({super.key});
   @override
   Widget build(BuildContext context) {
+    final state = context.read<RepairOrderCubit>();
     return GestureDetector(
       onTap: () async {
         final DateTime? pickedDate = await showDatePicker(
@@ -148,18 +158,24 @@ class DatePickerFormWidget extends StatelessWidget {
         );
 
         if (pickedDate != null) {
-          print('Date: ${pickedDate.toString()}');
+          state.setDeadline(pickedDate);
         }
       },
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-        decoration: BoxDecoration(
-          color: AppColors.backgroundColor,
-          border: Border.all(color: AppColors.textPrimary),
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
-        ),
-        child: const Text('01/01/2025'),
+      child: BlocBuilder<RepairOrderCubit, CreateOrderState>(
+        builder: (context, state) {
+          return Container(
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+            decoration: BoxDecoration(
+              color: AppColors.backgroundColor,
+              border: Border.all(color: AppColors.textPrimary),
+              borderRadius: const BorderRadius.all(Radius.circular(16)),
+            ),
+            child: Text(
+              '${state.deadline.month}/${state.deadline.day}/${state.deadline.year}',
+            ),
+          );
+        },
       ),
     );
   }

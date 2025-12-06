@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tailor/presentation/features/clothing_repair/widgets/order_card.dart';
-import '../../../home.dart';
+import 'package:smart_tailor/presentation/widgets/appbar.dart';
+import '../../../../home.dart';
 import '../order_form/order_form_screen.dart';
 import 'cubit/order_type_cubit.dart';
 
@@ -20,18 +21,13 @@ class _OrderTypeScreenState extends State<OrderTypeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Тип замовлення'),
-        centerTitle: false,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () => context.goNamed(HomeScreen.name),
-          icon: const Icon(Icons.arrow_back),
-        ),
+      appBar: CustomAppBarWidget(
+        title: 'Тип замовлення',
+        onPressed: () => context.goNamed(HomeScreen.name),
       ),
       body: const Column(
         children: [
-          OrderTypeList(),
+          Expanded(child: OrderTypeList()),
           OrderTypeButton(),
         ],
       ),
@@ -47,7 +43,7 @@ class OrderTypeList extends StatelessWidget {
     return BlocBuilder<OrderTypeCubit, OrderTypeState>(
       builder: (context, state) {
         return ListView.separated(
-          separatorBuilder: (_, _) => const Divider(height: 18),
+          separatorBuilder: (_, _) => const Divider(height: 13),
           itemCount: state.orderTypeList.length,
           itemBuilder: (context, index) {
             final order = state.orderTypeList[index];
@@ -64,64 +60,6 @@ class OrderTypeList extends StatelessWidget {
     );
   }
 }
-
-// class OrderTypeList extends StatelessWidget {
-//   const OrderTypeList({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<OrderTypeCubit, OrderTypeState>(
-//       builder: (context, state) {
-//         final orderTypeList = state.orderTypeList;
-//         return Expanded(
-//           child: ListView.builder(
-//             itemCount: orderTypeList.length,
-//             itemBuilder: (context, index) {
-//               String order = orderTypeList[index];
-//               return Padding(
-//                 padding: const EdgeInsets.all(8.0),
-//                 child: LayoutBuilder(
-//                   builder: (context, constraints) {
-//                     return GestureDetector(
-//                       onTapDown: (TapDownDetails details) {
-//                         double tapX = details.localPosition.dx;
-//                         double halfWidth = constraints.maxWidth / 2;
-//                         context.read<OrderTypeCubit>().onTapOrderElement(
-//                           tapX: tapX,
-//                           halfWidth: halfWidth,
-//                           order: order,
-//                         );
-//                       },
-//                       child: Container(
-//                         padding: const EdgeInsets.symmetric(
-//                           vertical: 16,
-//                           horizontal: 40,
-//                         ),
-//                         decoration: BoxDecoration(
-//                           border: Border.all(color: Colors.black),
-//                           borderRadius: BorderRadius.circular(16),
-//                         ),
-//                         child: Center(
-//                           child: Text(
-//                             order,
-//                             style: GoogleFonts.abel(
-//                               color: Colors.black,
-//                               fontSize: 16,
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     );
-//                   },
-//                 ),
-//               );
-//             },
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
 
 class OrderTypeButton extends StatelessWidget {
   const OrderTypeButton({super.key});

@@ -1,107 +1,84 @@
 import '../../domain/entity/order_type_card.dart';
 
 class AppConstants {
-  static const serviceTypeList = <String>[
-    "Усунення дірки / латання",
-    "Встановлення блискавки",
-    "Заміна блискавки",
-    "Підрубка низу (штанів, спідниці, сукні тощо)",
-    "Вкорочення довжини (рукавів, штанів тощо)",
-    "Подовження виробу",
-    "Ремонт або встановлення кишень",
-    "Ушивання виробу (по фігурі)",
-    "Розширення виробу",
-    "Заміна підкладки",
-    "Підгонка по фігурі",
-    "Встановлення гудзиків / кнопок / клепок",
-    "Заміна гудзиків",
-    "Встановлення люверсів",
-    "Заміна елементів фурнітури (гачки, пряжки тощо)",
-    "Ремонт швів",
-    "Перешивання старого одягу",
-    "Реставрація одягу",
-    "Індивідуальне пошиття (на замовлення)",
-    "Прасування / відпарювання",
-  ];
-
-  static const serviceTypeListN = <OrderType>[
-    OrderType(
+  static const serviceTypeList = <OrderTypeCard>[
+    OrderTypeCard(
       name: "Усунення дірки / латання",
       description: "Зашивання або латання пошкоджених ділянок тканини.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Встановлення блискавки",
       description: "Пришивання нової блискавки у виріб.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Заміна блискавки",
       description: "Демонтаж старої та пришивання нової блискавки.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Підрубка низу",
       description: "Вкорочення низу штанів, спідниць, суконь тощо.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Вкорочення довжини",
       description: "Регулювання довжини рукавів або штанів.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Подовження виробу",
       description: "Додавання довжини за рахунок вставок або матеріалу.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Ремонт або встановлення кишень",
       description: "Ремонт або додавання нових кишень.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Ушивання виробу",
       description: "Зменшення об’єму одягу для кращої посадки по фігурі.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Розширення виробу",
       description: "Збільшення об’єму або ширини одягу.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Заміна підкладки",
       description: "Оновлення або встановлення нової підкладки.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Підгонка по фігурі",
       description: "Корекція виробу для ідеальної посадки.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Встановлення гудзиків / кнопок / клепок",
       description: "Пришивання або встановлення елементів застібки.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Заміна гудзиків",
       description: "Оновлення або пришивання нових гудзиків.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Встановлення люверсів",
       description: "Монтаж металевих отворів для шнурівки чи декору.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Заміна фурнітури",
       description: "Оновлення гачків, пряжок та інших деталей.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Ремонт швів",
       description: "Підсилення або повторне прошивання швів.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Перешивання старого одягу",
       description: "Оновлення або зміна крою існуючого виробу.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Реставрація одягу",
       description: "Відновлення вигляду або структури старого виробу.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Індивідуальне пошиття",
       description: "Пошиття виробу на замовлення за мірками клієнта.",
     ),
-    OrderType(
+    OrderTypeCard(
       name: "Прасування / відпарювання",
       description: "Надання виробу охайного вигляду після шиття.",
     ),

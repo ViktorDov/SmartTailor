@@ -3,15 +3,15 @@ part of 'order_type_cubit.dart';
 enum OrderTypeStatus { initial, success, error, loading }
 
 class OrderTypeState extends Equatable {
-  final List<OrderType> orderTypeList;
-  final List<OrderType> selectedOrders;
+  final List<OrderTypeCard> orderTypeList;
+  final List<OrderTypeCard> selectedOrders;
   final String? errorMessage;
   final OrderTypeStatus orderTypeStatus;
   final bool navigateNext;
 
   const OrderTypeState({
-    this.orderTypeList = const <OrderType>[],
-    this.selectedOrders = const <OrderType>[],
+    this.orderTypeList = const <OrderTypeCard>[],
+    this.selectedOrders = const <OrderTypeCard>[],
     this.errorMessage,
     this.orderTypeStatus = OrderTypeStatus.initial,
     this.navigateNext = false,
@@ -27,8 +27,8 @@ class OrderTypeState extends Equatable {
   ];
 
   OrderTypeState copyWith({
-    List<OrderType>? orderTypeList,
-    List<OrderType>? selectedOrders,
+    List<OrderTypeCard>? orderTypeList,
+    List<OrderTypeCard>? selectedOrders,
     String? errorMessage,
     OrderTypeStatus? orderTypeStatus,
     bool? navigateNext,

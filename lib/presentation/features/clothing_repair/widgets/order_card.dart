@@ -4,7 +4,7 @@ import '../../../../domain/entity/order_type_card.dart';
 import '../../../constants/app_colors.dart';
 
 class OrderTypeCardWidget extends StatelessWidget {
-  final OrderType order;
+  final OrderTypeCard order;
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
   const OrderTypeCardWidget({
@@ -28,19 +28,22 @@ class OrderTypeCardWidget extends StatelessWidget {
       child: ListTile(
         title: Text(
           order.name,
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-            color: isSelected ? AppColors.blueSelectedColor : Colors.black,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 18,
+            color: Colors.black,
           ),
         ),
         subtitle: Text(
           order.description,
           style: TextStyle(
             fontWeight: FontWeight.w300,
-            color: isSelected ? Colors.blueGrey : Colors.grey,
+            fontSize: 13,
+            color: isSelected ? Colors.black : Colors.black,
           ),
         ),
         trailing: Row(
+          mainAxisSize: .min,
           children: [
             _CountButton(
               icon: Icons.remove,

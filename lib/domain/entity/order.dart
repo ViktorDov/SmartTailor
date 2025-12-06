@@ -3,6 +3,7 @@ import 'dart:convert';
 class Order {
   final String customerName;
   final String customerSecondName;
+  final String orderType;
   final int phoneNumber;
   final int prise;
   final DateTime deadline;
@@ -10,15 +11,29 @@ class Order {
   Order({
     required this.customerName,
     required this.customerSecondName,
+    required this.orderType,
     required this.phoneNumber,
     required this.prise,
     required this.deadline,
     required this.assignedMaster,
   });
 
+  factory Order.empty() {
+    return Order(
+      customerName: 'customerName',
+      customerSecondName: 'customerSecondName',
+      orderType: 'orderType',
+      phoneNumber: 1,
+      prise: 1,
+      deadline: DateTime.now(),
+      assignedMaster: 'assignedMaster',
+    );
+  }
+
   Order copyWith({
     String? customerName,
     String? customerSecondName,
+    String? orderType,
     int? phoneNumber,
     int? prise,
     DateTime? deadline,
@@ -27,6 +42,7 @@ class Order {
     return Order(
       customerName: customerName ?? this.customerName,
       customerSecondName: customerSecondName ?? this.customerSecondName,
+      orderType: orderType ?? this.orderType,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       prise: prise ?? this.prise,
       deadline: deadline ?? this.deadline,
@@ -38,6 +54,7 @@ class Order {
     return <String, dynamic>{
       'customerName': customerName,
       'customerSecondName': customerSecondName,
+      'orderType': orderType,
       'phoneNumber': phoneNumber,
       'prise': prise,
       'deadline': deadline.millisecondsSinceEpoch,
@@ -49,6 +66,7 @@ class Order {
     return Order(
       customerName: map['customerName'] as String,
       customerSecondName: map['customerSecondName'] as String,
+      orderType: map['orderType'] as String,
       phoneNumber: map['phoneNumber'] as int,
       prise: map['prise'] as int,
       deadline: DateTime.fromMillisecondsSinceEpoch(map['deadline'] as int),
@@ -63,6 +81,19 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(customerName: $customerName, customerSecondName: $customerSecondName, phoneNumber: $phoneNumber, prise: $prise, deadline: $deadline, assignedMaster: $assignedMaster)';
+    return 'Order(customerName: $customerName, customerSecondName: $customerSecondName, orderType: $orderType, phoneNumber: $phoneNumber, prise: $prise, deadline: $deadline, assignedMaster: $assignedMaster)';
+  }
+
+  @override
+  bool operator ==(covariant Order other) {
+    if (identical(this, other)) return true;
+
+    return other.customerName == customerName &&
+        other.customerSecondName == customerSecondName &&
+        other.orderType == orderType &&
+        other.phoneNumber == phoneNumber &&
+        other.prise == prise &&
+        other.deadline == deadline &&
+        other.assignedMaster == assignedMaster;
   }
 }
