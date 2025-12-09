@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tailor/presentation/features/clothing_repair/widgets/order_card.dart';
 import 'package:smart_tailor/presentation/widgets/appbar.dart';
 import '../../../../home.dart';
-import '../order_form/order_form_screen.dart';
 import 'cubit/order_type_cubit.dart';
 
 class OrderTypeScreen extends StatefulWidget {
@@ -27,8 +26,11 @@ class _OrderTypeScreenState extends State<OrderTypeScreen> {
       ),
       body: const Column(
         children: [
-          Expanded(child: OrderTypeList()),
+          Expanded(
+            child: OrderTypeList(),
+          ),
           OrderTypeButton(),
+          ErrorHandlerSnackBar(),
         ],
       ),
     );
@@ -66,32 +68,38 @@ class OrderTypeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            context.read<OrderTypeCubit>().onTapButtonOrderType();
+          },
+          child: Text(
+            "Підтвердити замовлення",
+            style: GoogleFonts.poppins(color: Colors.black),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ErrorHandlerSnackBar extends StatelessWidget {
+  const ErrorHandlerSnackBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return BlocListener<OrderTypeCubit, OrderTypeState>(
       listenWhen: (prev, curr) => prev.orderTypeStatus != curr.orderTypeStatus,
-      listener: (context, state) {
+      listener: (BuildContext context, state) {
         if (state.orderTypeStatus == OrderTypeStatus.error &&
             state.errorMessage != null) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
-        } else if (state.orderTypeStatus == OrderTypeStatus.success) {
-          context.pushNamed(OrderFormScreen.name);
-          context.read<OrderTypeCubit>().resetStatus();
         }
       },
-      child: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              context.read<OrderTypeCubit>().onTapButtonOrderType();
-            },
-            child: Text(
-              "Підтвердити замовлення",
-              style: GoogleFonts.poppins(color: Colors.black),
-            ),
-          ),
-        ],
-      ),
+      child: const SizedBox.shrink(),
     );
   }
 }
