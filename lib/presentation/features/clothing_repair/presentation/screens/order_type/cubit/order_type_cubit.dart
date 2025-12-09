@@ -18,7 +18,6 @@ class OrderTypeCubit extends Cubit<OrderTypeState> {
   }
 
   Future<void> getOrdersType() async {
-    Future.delayed(const Duration(seconds: 5));
     emit(state.copyWith(orderTypeStatus: OrderTypeStatus.loading));
     final listOrderTypes = await _serviceDataProvider.getService();
     emit(state.copyWith(orderTypeList: listOrderTypes));
