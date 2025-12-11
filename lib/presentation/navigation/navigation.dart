@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:smart_tailor/presentation/features/clothing_repair/presentation/screens/confirm_order/confirm_screen.dart';
+import '../../domain/entity/order_type_card.dart';
 import '../features/clothing_repair/presentation/screens/order_type/order_type_screen.dart';
 import '../features/clothing_repair/presentation/screens/order_form/order_form_screen.dart';
 import '../features/home.dart';
@@ -16,7 +17,11 @@ class Navigation {
       GoRoute(
         path: OrderFormScreen.path,
         name: OrderFormScreen.name,
-        builder: (context, state) => const OrderFormScreen(),
+        builder: (context, state) {
+          final List<OrderTypeCard> type = state.extra as List<OrderTypeCard>;
+
+          return OrderFormScreen(orderTypes: type);
+        },
       ),
       GoRoute(
         path: OrderTypeScreen.path,

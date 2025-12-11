@@ -51,7 +51,12 @@ class OrderTypeCubit extends Cubit<OrderTypeState> {
       );
       return;
     }
-    emit(state.copyWith(orderTypeStatus: OrderTypeStatus.success));
+    emit(
+      state.copyWith(
+        orderTypeStatus: OrderTypeStatus.success,
+        selectedOrders: _selectedOrderTypes,
+      ),
+    );
     _resetStatus();
   }
 

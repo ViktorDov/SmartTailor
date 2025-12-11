@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_tailor/presentation/constants/app_colors.dart';
 import 'package:smart_tailor/presentation/features/clothing_repair/presentation/cubit/order_cubit.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/presentation/screens/order_type/order_type_screen.dart';
+import '../../../../../../domain/entity/order_type_card.dart';
 import '../../../../../constants/app_decoration.dart';
+import '../../../../../widgets/appbar.dart';
 
 class OrderFormScreen extends StatefulWidget {
+  final List<OrderTypeCard> orderTypes;
   static const String path = '/order_form';
   static const String name = 'orderForm';
-  const OrderFormScreen({super.key});
+  const OrderFormScreen({super.key, required this.orderTypes});
 
   @override
   State<OrderFormScreen> createState() => _OrderFormScreenState();
@@ -17,11 +22,14 @@ class _OrderFormScreenState extends State<OrderFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Замовлення'),
-        centerTitle: true,
+      appBar: CustomAppBarWidget(
+        title: 'Замовлення',
+        onPressed: () => context.goNamed(OrderTypeScreen.name),
       ),
-      body: const OrderFormBody(),
+      body: BlocProvider(
+        create: (context) => CreateOrderCubit(widget.orderTypes),
+        child: const OrderFormBody(),
+      ),
     );
   }
 }
@@ -85,6 +93,7 @@ class NameTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: (value) => context.read<CreateOrderCubit>().nameChanged(value),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: const TextFiledInputDecorations(
         lableText: 'Ім\'я',
@@ -100,7 +109,7 @@ class MiddleNameTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (value) =>
-          context.read<RepairOrderCubit>().middleNameChanged(value),
+          context.read<CreateOrderCubit>().middleNameChanged(value),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: const TextFiledInputDecorations(
         lableText: 'По батькові',
@@ -116,7 +125,7 @@ class PhoneTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (value) {
-        context.read<RepairOrderCubit>().phoneChanged(value.compareTo(value));
+        context.read<CreateOrderCubit>().phoneChanged(value.compareTo(value));
       },
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: const TextFiledInputDecorations(
@@ -133,7 +142,7 @@ class PriceTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (value) =>
-          context.read<RepairOrderCubit>().priceChanged(value.compareTo(value)),
+          context.read<CreateOrderCubit>().priceChanged(value.compareTo(value)),
       onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: const TextFiledInputDecorations(
         lableText: 'Ціна замовлення',
@@ -147,7 +156,7 @@ class DatePickerFormWidget extends StatelessWidget {
   const DatePickerFormWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    final state = context.read<RepairOrderCubit>();
+    final state = context.read<CreateOrderCubit>();
     return GestureDetector(
       onTap: () async {
         final DateTime? pickedDate = await showDatePicker(
@@ -161,7 +170,7 @@ class DatePickerFormWidget extends StatelessWidget {
           state.setDeadline(pickedDate);
         }
       },
-      child: BlocBuilder<RepairOrderCubit, CreateOrderState>(
+      child: BlocBuilder<CreateOrderCubit, CreateOrderState>(
         builder: (context, state) {
           return Container(
             margin: const EdgeInsets.all(10),

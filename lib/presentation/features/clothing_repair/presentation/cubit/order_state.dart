@@ -33,9 +33,9 @@ class CreateOrderState extends Equatable {
     required this.order,
   });
 
-  factory CreateOrderState.initial() {
+  factory CreateOrderState.initial(List<OrderTypeCard> orderType) {
     return CreateOrderState(
-      order: Order.empty(),
+      order: Order.empty(orderType),
       deadline: DateTime.now(),
       customerData: CustomerData(
         customerName: '',

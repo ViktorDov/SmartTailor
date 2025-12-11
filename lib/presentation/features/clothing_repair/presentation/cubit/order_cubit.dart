@@ -2,27 +2,26 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:smart_tailor/domain/entity/order.dart';
 
+import '../../../../../domain/entity/order_type_card.dart';
+
 part 'order_state.dart';
 
-class RepairOrderCubit extends Cubit<CreateOrderState> {
+class CreateOrderCubit extends Cubit<CreateOrderState> {
   // final _serviceDataProvider = ServiceDataProvider();
-  RepairOrderCubit() : super(CreateOrderState.initial());
+  CreateOrderCubit(List<OrderTypeCard> orderTypes)
+    : super(CreateOrderState.initial(orderTypes));
 
   // function for update order service type
-  void updateOrderServiceType(String serviceType) {
-    final updatedOrder = state.order.copyWith(orderType: serviceType);
+  // void updateOrderServiceType(String serviceType) {
+  //   final updatedOrder = state.order.copyWith(orderType: serviceType);
 
-    emit(
-      state.copyWith(
-        order: updatedOrder,
-        status: CreateOrderStatus.dataEntry,
-      ),
-    );
-  }
-
-  void updateCustomerData() {}
-
-  void confirmOrder() {}
+  //   emit(
+  //     state.copyWith(
+  //       order: updatedOrder,
+  //       status: CreateOrderStatus.dataEntry,
+  //     ),
+  //   );
+  // }
 
   void nameChanged(String name) {
     print('set name: $name');

@@ -1,9 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+
+import 'package:smart_tailor/domain/entity/order_type_card.dart';
 
 class Order {
   final String customerName;
   final String customerSecondName;
-  final String orderType;
+  final List<OrderTypeCard> orderType;
   final int phoneNumber;
   final int prise;
   final DateTime deadline;
@@ -18,11 +23,11 @@ class Order {
     required this.assignedMaster,
   });
 
-  factory Order.empty() {
+  factory Order.empty(List<OrderTypeCard> orderType) {
     return Order(
       customerName: 'customerName',
       customerSecondName: 'customerSecondName',
-      orderType: 'orderType',
+      orderType: orderType,
       phoneNumber: 1,
       prise: 1,
       deadline: DateTime.now(),
@@ -33,7 +38,7 @@ class Order {
   Order copyWith({
     String? customerName,
     String? customerSecondName,
-    String? orderType,
+    List<OrderTypeCard>? orderType,
     int? phoneNumber,
     int? prise,
     DateTime? deadline,
@@ -54,7 +59,7 @@ class Order {
     return <String, dynamic>{
       'customerName': customerName,
       'customerSecondName': customerSecondName,
-      'orderType': orderType,
+      'orderType': orderType.map((x) => x.toMap()).toList(),
       'phoneNumber': phoneNumber,
       'prise': prise,
       'deadline': deadline.millisecondsSinceEpoch,
@@ -66,7 +71,11 @@ class Order {
     return Order(
       customerName: map['customerName'] as String,
       customerSecondName: map['customerSecondName'] as String,
-      orderType: map['orderType'] as String,
+      orderType: List<OrderTypeCard>.from(
+        (map['orderType'] as List<int>).map<OrderTypeCard>(
+          (x) => OrderTypeCard.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       phoneNumber: map['phoneNumber'] as int,
       prise: map['prise'] as int,
       deadline: DateTime.fromMillisecondsSinceEpoch(map['deadline'] as int),
@@ -90,10 +99,21 @@ class Order {
 
     return other.customerName == customerName &&
         other.customerSecondName == customerSecondName &&
-        other.orderType == orderType &&
+        listEquals(other.orderType, orderType) &&
         other.phoneNumber == phoneNumber &&
         other.prise == prise &&
         other.deadline == deadline &&
         other.assignedMaster == assignedMaster;
+  }
+
+  @override
+  int get hashCode {
+    return customerName.hashCode ^
+        customerSecondName.hashCode ^
+        orderType.hashCode ^
+        phoneNumber.hashCode ^
+        prise.hashCode ^
+        deadline.hashCode ^
+        assignedMaster.hashCode;
   }
 }

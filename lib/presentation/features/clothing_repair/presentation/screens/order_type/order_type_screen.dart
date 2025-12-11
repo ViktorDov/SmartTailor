@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tailor/presentation/features/clothing_repair/widgets/order_card.dart';
 import 'package:smart_tailor/presentation/widgets/appbar.dart';
 import '../../../../home.dart';
+import '../order_form/order_form_screen.dart';
 import 'cubit/order_type_cubit.dart';
 
 class OrderTypeScreen extends StatefulWidget {
@@ -24,15 +25,27 @@ class _OrderTypeScreenState extends State<OrderTypeScreen> {
         title: 'Тип замовлення',
         onPressed: () => context.goNamed(HomeScreen.name),
       ),
-      body: const Column(
-        children: [
-          Expanded(
-            child: OrderTypeList(),
-          ),
-          OrderTypeButton(),
-          ErrorHandlerSnackBar(),
-        ],
+      body: BlocProvider<OrderTypeCubit>(
+        create: (context) => OrderTypeCubit(),
+        child: const OrderTypeView(),
       ),
+    );
+  }
+}
+
+class OrderTypeView extends StatelessWidget {
+  const OrderTypeView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Expanded(
+          child: OrderTypeList(),
+        ),
+        OrderTypeButton(),
+        ErrorHandlerSnackBar(),
+      ],
     );
   }
 }
@@ -68,18 +81,30 @@ class OrderTypeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            context.read<OrderTypeCubit>().onTapButtonOrderType();
-          },
-          child: Text(
-            "Підтвердити замовлення",
-            style: GoogleFonts.poppins(color: Colors.black),
+    return BlocListener<OrderTypeCubit, OrderTypeState>(
+      listener: (BuildContext context, state) {
+        if (state.orderTypeStatus == OrderTypeStatus.success &&
+            state.errorMessage == null) {
+          context.goNamed(
+            OrderFormScreen.name,
+            extra: state.selectedOrders,
+          );
+        }
+      },
+      listenWhen: (prev, curr) => prev.orderTypeStatus != curr.orderTypeStatus,
+      child: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              context.read<OrderTypeCubit>().onTapButtonOrderType();
+            },
+            child: Text(
+              "Підтвердити замовлення",
+              style: GoogleFonts.poppins(color: Colors.black),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
