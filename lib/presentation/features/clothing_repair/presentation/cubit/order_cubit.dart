@@ -25,21 +25,21 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
 
   void nameChanged(String name) {
     print('set name: $name');
-    // emit(state.copyWith(customerData: CustomerData(customerName: name)));
+    emit(state.copyWith(customerData: CustomerData(name: name)));
   }
 
   void middleNameChanged(String secondName) {
     print('set secondName: $secondName');
-    // emit(state.copyWith(customerMiddleName: secondName));
+    emit(state.copyWith(customerData: CustomerData(secondName: secondName)));
   }
 
   void phoneChanged(int phoneNumber) {
     print('set phoneNumber: $phoneNumber');
-    // emit(state.copyWith(customerPhone: phoneNumber));
+    emit(state.copyWith(customerData: CustomerData(phoneNumber: phoneNumber)));
   }
 
   void priceChanged(int orderPrice) {
-    // emit(state.copyWith(orderPrice: orderPrice));
+    emit(state.copyWith(price: orderPrice));
   }
 
   void setDeadline(DateTime deadline) {

@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/presentation/cubit/order_cubit.dart';
 import 'package:smart_tailor/presentation/features/clothing_repair/presentation/screens/confirm_order/confirm_screen.dart';
 import '../../domain/entity/order_type_card.dart';
 import '../features/clothing_repair/presentation/screens/order_type/order_type_screen.dart';
@@ -15,18 +17,20 @@ class Navigation {
         builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
+        path: OrderTypeScreen.path,
+        name: OrderTypeScreen.name,
+        builder: (context, state) => const OrderTypeScreen(),
+      ),
+      GoRoute(
         path: OrderFormScreen.path,
         name: OrderFormScreen.name,
         builder: (context, state) {
           final List<OrderTypeCard> type = state.extra as List<OrderTypeCard>;
-
-          return OrderFormScreen(orderTypes: type);
+          return BlocProvider(
+            create: (_) => CreateOrderCubit(type),
+            child: const OrderFormScreen(),
+          );
         },
-      ),
-      GoRoute(
-        path: OrderTypeScreen.path,
-        name: OrderTypeScreen.name,
-        builder: (context, state) => const OrderTypeScreen(),
       ),
       GoRoute(
         path: ConfirmOrderScreen.path,

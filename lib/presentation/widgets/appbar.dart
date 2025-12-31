@@ -31,7 +31,7 @@ class CustomAppBarWidget extends StatelessWidget
       centerTitle: centerTitle,
       actions: actions,
       backgroundColor: Colors.white,
-      foregroundColor: AppColors.appBarColor,
+      foregroundColor: AppColors.mainDarkBlue,
       animateColor: true,
       leading: Padding(
         padding: const EdgeInsets.fromLTRB(10, 9, 9, 9),
@@ -40,12 +40,12 @@ class CustomAppBarWidget extends StatelessWidget
             shape: BoxShape.circle,
             border: Border.all(
               width: 2.3,
-              color: AppColors.appBarColor,
+              color: AppColors.mainDarkBlue,
             ),
           ),
           child: IconButton(
             iconSize: 22,
-            color: AppColors.appBarColor,
+            color: AppColors.mainDarkBlue,
             onPressed: onPressed,
             icon: const Icon(
               Icons.arrow_back,

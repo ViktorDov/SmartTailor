@@ -8,7 +8,7 @@ class AppColors {
   static const Color textSecondary = Color(0xFF828282); // Другорядний текст
   static const Color successColor = Color(0xFF27AE60); // Колір успіху
   static const Color errorColor = Color(0xFFEB5757); // Колір помилки
-  static const Color appBarColor = Color.fromARGB(
+  static const Color mainDarkBlue = Color.fromARGB(
     255,
     37,
     61,

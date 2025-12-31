@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:smart_tailor/presentation/widgets/appbar.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
   static final String path = '/confirmOrder';
@@ -13,7 +15,13 @@ class ConfirmOrderScreen extends StatefulWidget {
 class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: ConfirmOrderBody());
+    return Scaffold(
+      appBar: CustomAppBarWidget(
+        title: 'Підтвердити замовлення',
+        onPressed: () => context.pop(),
+      ),
+      body: const ConfirmOrderBody(),
+    );
   }
 }
 
@@ -30,9 +38,16 @@ class ConfirmOrderBody extends StatelessWidget {
         ),
         SectionBuildWidget(
           title: "Деталі замовлення",
-          children: [OrderDetailsWidget()],
+          children: [
+            OrderDetailsWidget(),
+          ],
         ),
-        SectionBuildWidget(title: "Вартість", children: [OrderPriceWidget()]),
+        SectionBuildWidget(
+          title: "Вартість",
+          children: [
+            OrderPriceWidget(),
+          ],
+        ),
       ],
     );
   }

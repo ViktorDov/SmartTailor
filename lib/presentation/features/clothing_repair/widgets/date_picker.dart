@@ -42,7 +42,7 @@ class CustomDatePickerField extends StatelessWidget {
           onDateSelected(pickedDate);
         }
       },
-      decoration: TextFiledInputDecorations(lableText: label).inputDecoration,
+      decoration: TextFiledInputDecorations(hintText: label).inputDecoration,
       controller: TextEditingController(
         text: selectedDate != null
             ? "${selectedDate!.day.toString().padLeft(2, '0')}/"

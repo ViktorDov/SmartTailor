@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_tailor/presentation/constants/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:smart_tailor/presentation/features/clothing_repair/presentation/cubit/order_cubit.dart';
-import 'package:smart_tailor/presentation/features/clothing_repair/presentation/screens/order_type/order_type_screen.dart';
-import '../../../../../../domain/entity/order_type_card.dart';
+import '../../../../../constants/app_colors.dart';
 import '../../../../../constants/app_decoration.dart';
 import '../../../../../widgets/appbar.dart';
+import '../confirm_order/confirm_screen.dart';
 
 class OrderFormScreen extends StatefulWidget {
-  final List<OrderTypeCard> orderTypes;
   static const String path = '/order_form';
   static const String name = 'orderForm';
-  const OrderFormScreen({super.key, required this.orderTypes});
+  const OrderFormScreen({super.key});
 
   @override
   State<OrderFormScreen> createState() => _OrderFormScreenState();
@@ -24,12 +23,9 @@ class _OrderFormScreenState extends State<OrderFormScreen> {
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: 'Замовлення',
-        onPressed: () => context.goNamed(OrderTypeScreen.name),
+        onPressed: () => context.pop(),
       ),
-      body: BlocProvider(
-        create: (context) => CreateOrderCubit(widget.orderTypes),
-        child: const OrderFormBody(),
-      ),
+      body: const OrderFormBody(),
     );
   }
 }
@@ -39,48 +35,56 @@ class OrderFormBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
-      child: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ConsumerDataFormWidget(),
-            SizedBox(height: 10),
-          ],
-        ),
+    return SafeArea(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(12),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: .center,
+                    mainAxisSize: .min,
+                    children: [
+                      ConsumerDetailsForm(),
+                      SizedBox(height: 20),
+                      ButtonWidget(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 }
 
-class ConsumerDataFormWidget extends StatelessWidget {
-  const ConsumerDataFormWidget({super.key});
+class ConsumerDetailsForm extends StatelessWidget {
+  const ConsumerDetailsForm({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: NameTextField(),
-              ),
-              SizedBox(width: 20),
-              Expanded(child: MiddleNameTextField()),
-            ],
-          ),
-          SizedBox(height: 10),
-          PhoneTextField(),
-          SizedBox(height: 10),
-          PriceTextField(),
-          SizedBox(height: 10),
-          DatePickerFormWidget(),
-        ],
-      ),
+    const fieldSpacing = SizedBox(height: 16);
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        NameTextField(),
+        fieldSpacing,
+        MiddleNameTextField(),
+        fieldSpacing,
+        PhoneTextField(),
+        fieldSpacing,
+        PriceTextField(),
+        fieldSpacing,
+        DatePickerFormWidget(),
+      ],
     );
   }
 }
@@ -92,12 +96,29 @@ class NameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: (value) => context.read<CreateOrderCubit>().nameChanged(value),
-      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: const TextFiledInputDecorations(
-        lableText: 'Ім\'я',
-      ).inputDecoration,
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: .start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Ім\'я',
+            style: textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        TextField(
+          onChanged: (value) =>
+              context.read<CreateOrderCubit>().nameChanged(value),
+          onTapOutside: (event) =>
+              FocusManager.instance.primaryFocus?.unfocus(),
+          decoration: const TextFiledInputDecorations(
+            hintText: 'Введіть ім’я',
+          ).inputDecoration,
+        ),
+      ],
     );
   }
 }
@@ -107,13 +128,29 @@ class MiddleNameTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: (value) =>
-          context.read<CreateOrderCubit>().middleNameChanged(value),
-      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: const TextFiledInputDecorations(
-        lableText: 'По батькові',
-      ).inputDecoration,
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: .start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "По батькові",
+            style: textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        TextField(
+          onChanged: (value) =>
+              context.read<CreateOrderCubit>().middleNameChanged(value),
+          onTapOutside: (event) =>
+              FocusManager.instance.primaryFocus?.unfocus(),
+          decoration: const TextFiledInputDecorations(
+            hintText: 'Введіть по батькові',
+          ).inputDecoration,
+        ),
+      ],
     );
   }
 }
@@ -123,15 +160,34 @@ class PhoneTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: (value) {
-        context.read<CreateOrderCubit>().phoneChanged(value.compareTo(value));
-      },
-      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: const TextFiledInputDecorations(
-        lableText: 'Номер телефону',
-      ).inputDecoration,
-      keyboardType: TextInputType.number,
+    final textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      crossAxisAlignment: .start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Номер телефону",
+            style: textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        TextField(
+          onChanged: (value) {
+            context.read<CreateOrderCubit>().phoneChanged(
+              value.compareTo(value),
+            );
+          },
+          onTapOutside: (event) =>
+              FocusManager.instance.primaryFocus?.unfocus(),
+          decoration: const TextFiledInputDecorations(
+            hintText: 'Вкажіть номер телефону',
+          ).inputDecoration,
+          keyboardType: TextInputType.number,
+        ),
+      ],
     );
   }
 }
@@ -140,51 +196,119 @@ class PriceTextField extends StatelessWidget {
   const PriceTextField({super.key});
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      onChanged: (value) =>
-          context.read<CreateOrderCubit>().priceChanged(value.compareTo(value)),
-      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-      decoration: const TextFiledInputDecorations(
-        lableText: 'Ціна замовлення',
-      ).inputDecoration,
-      keyboardType: TextInputType.number,
+    final textTheme = Theme.of(context).textTheme;
+    return Column(
+      crossAxisAlignment: .start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "Ціна замовлення",
+            style: textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        TextField(
+          onChanged: (value) => context.read<CreateOrderCubit>().priceChanged(
+            value.compareTo(value),
+          ),
+          onTapOutside: (event) =>
+              FocusManager.instance.primaryFocus?.unfocus(),
+          decoration: const TextFiledInputDecorations(
+            hintText: 'Введіть суму',
+          ).inputDecoration,
+          keyboardType: TextInputType.number,
+        ),
+      ],
     );
   }
 }
 
 class DatePickerFormWidget extends StatelessWidget {
   const DatePickerFormWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final state = context.read<CreateOrderCubit>();
-    return GestureDetector(
-      onTap: () async {
-        final DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(2025),
-          lastDate: DateTime(2050),
-        );
+    final textTheme = Theme.of(context).textTheme;
+    final cubit = context.read<CreateOrderCubit>();
 
-        if (pickedDate != null) {
-          state.setDeadline(pickedDate);
-        }
-      },
-      child: BlocBuilder<CreateOrderCubit, CreateOrderState>(
-        builder: (context, state) {
-          return Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-            decoration: BoxDecoration(
-              color: AppColors.backgroundColor,
-              border: Border.all(color: AppColors.textPrimary),
-              borderRadius: const BorderRadius.all(Radius.circular(16)),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Дедлайн',
+            style: textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+              fontSize: (textTheme.labelMedium?.fontSize ?? 14) + 2,
             ),
-            child: Text(
-              '${state.deadline.month}/${state.deadline.day}/${state.deadline.year}',
-            ),
-          );
-        },
+          ),
+        ),
+        BlocBuilder<CreateOrderCubit, CreateOrderState>(
+          builder: (context, state) {
+            return TextFormField(
+              readOnly: true,
+              decoration: const TextFiledInputDecorations(
+                hintText: 'Оберіть дату',
+              ).inputDecoration,
+              controller: TextEditingController(
+                text: state.deadline != null
+                    ? _formatDate(state.deadline!)
+                    : '',
+              ),
+              onTap: () async {
+                final pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: state.deadline ?? DateTime.now(),
+                  firstDate: DateTime(2025),
+                  lastDate: DateTime(2050),
+                );
+                if (pickedDate != null && context.mounted) {
+                  cubit.setDeadline(pickedDate);
+                }
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day}.${date.month}.${date.year}';
+  }
+}
+
+class ButtonWidget extends StatelessWidget {
+  const ButtonWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () => context.pushNamed(ConfirmOrderScreen.name),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: Colors.white,
+        backgroundColor: AppColors.primaryColor,
+        side: const BorderSide(
+          color: AppColors.mainDarkBlue,
+          width: 1.5,
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+        elevation: 4,
+        shadowColor: AppColors.primaryColor,
+      ),
+      child: Text(
+        'Продовжити',
+        style: GoogleFonts.roboto(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.5,
+        ),
       ),
     );
   }

@@ -85,7 +85,7 @@ class OrderTypeButton extends StatelessWidget {
       listener: (BuildContext context, state) {
         if (state.orderTypeStatus == OrderTypeStatus.success &&
             state.errorMessage == null) {
-          context.goNamed(
+          context.pushNamed(
             OrderFormScreen.name,
             extra: state.selectedOrders,
           );
