@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:smart_tailor/presentation/features/clothing_repair/presentation/cubit/order_cubit.dart';
-import '../../../../../constants/app_colors.dart';
-import '../../../../../constants/app_decoration.dart';
+import 'package:smart_tailor/presentation/common/extentions/date_time_extensions.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/presentation/screens/order_confirm/order_confirm_screen.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/presentation/screens/order_form/cubit/order_cubit.dart';
+import '../../../../../common/theme/app_colors.dart';
+import '../../../../../common/theme/app_decoration.dart';
 import '../../../../../widgets/appbar.dart';
-import '../confirm_order/confirm_screen.dart';
 
 class OrderFormScreen extends StatefulWidget {
   static const String path = '/order_form';
@@ -23,7 +24,7 @@ class _OrderFormScreenState extends State<OrderFormScreen> {
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: 'Замовлення',
-        onPressed: () => context.pop(),
+        onLeadingButtonPress: () => context.pop(),
       ),
       body: const OrderFormBody(),
     );
@@ -97,6 +98,7 @@ class NameTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
     return Column(
       crossAxisAlignment: .start,
       children: [
@@ -109,14 +111,20 @@ class NameTextField extends StatelessWidget {
             ),
           ),
         ),
-        TextField(
-          onChanged: (value) =>
-              context.read<CreateOrderCubit>().nameChanged(value),
-          onTapOutside: (event) =>
-              FocusManager.instance.primaryFocus?.unfocus(),
-          decoration: const TextFiledInputDecorations(
-            hintText: 'Введіть ім’я',
-          ).inputDecoration,
+        BlocBuilder<CreateOrderCubit, CreateOrderState>(
+          buildWhen: (prev, curr) => prev.name != curr.name,
+          builder: (context, state) {
+            return TextField(
+              onChanged: (value) =>
+                  context.read<CreateOrderCubit>().nameChanged(value),
+              onTapOutside: (event) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
+              decoration: TextFiledInputDecorations(
+                hintText: 'Введіть ім’я',
+                errorText: state.name.error,
+              ).inputDecoration,
+            );
+          },
         ),
       ],
     );
@@ -141,14 +149,20 @@ class MiddleNameTextField extends StatelessWidget {
             ),
           ),
         ),
-        TextField(
-          onChanged: (value) =>
-              context.read<CreateOrderCubit>().middleNameChanged(value),
-          onTapOutside: (event) =>
-              FocusManager.instance.primaryFocus?.unfocus(),
-          decoration: const TextFiledInputDecorations(
-            hintText: 'Введіть по батькові',
-          ).inputDecoration,
+        BlocBuilder<CreateOrderCubit, CreateOrderState>(
+          buildWhen: (prev, curr) => prev.middleName != curr.middleName,
+          builder: (context, state) {
+            return TextField(
+              onChanged: (value) =>
+                  context.read<CreateOrderCubit>().middleNameChanged(value),
+              onTapOutside: (event) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
+              decoration: TextFiledInputDecorations(
+                hintText: 'Введіть по батькові',
+                errorText: state.middleName.error,
+              ).inputDecoration,
+            );
+          },
         ),
       ],
     );
@@ -174,18 +188,21 @@ class PhoneTextField extends StatelessWidget {
             ),
           ),
         ),
-        TextField(
-          onChanged: (value) {
-            context.read<CreateOrderCubit>().phoneChanged(
-              value.compareTo(value),
+        BlocBuilder<CreateOrderCubit, CreateOrderState>(
+          buildWhen: (prev, curr) => prev.phoneNumber != curr.phoneNumber,
+          builder: (context, state) {
+            return TextField(
+              onChanged: (value) =>
+                  context.read<CreateOrderCubit>().phoneChanged(value),
+              onTapOutside: (event) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
+              decoration: TextFiledInputDecorations(
+                hintText: 'Вкажіть номер телефону',
+                errorText: state.phoneNumber.error,
+              ).inputDecoration,
+              keyboardType: TextInputType.number,
             );
           },
-          onTapOutside: (event) =>
-              FocusManager.instance.primaryFocus?.unfocus(),
-          decoration: const TextFiledInputDecorations(
-            hintText: 'Вкажіть номер телефону',
-          ).inputDecoration,
-          keyboardType: TextInputType.number,
         ),
       ],
     );
@@ -209,16 +226,21 @@ class PriceTextField extends StatelessWidget {
             ),
           ),
         ),
-        TextField(
-          onChanged: (value) => context.read<CreateOrderCubit>().priceChanged(
-            value.compareTo(value),
-          ),
-          onTapOutside: (event) =>
-              FocusManager.instance.primaryFocus?.unfocus(),
-          decoration: const TextFiledInputDecorations(
-            hintText: 'Введіть суму',
-          ).inputDecoration,
-          keyboardType: TextInputType.number,
+        BlocBuilder<CreateOrderCubit, CreateOrderState>(
+          buildWhen: (prev, curr) => prev.price != curr.price,
+          builder: (context, state) {
+            return TextField(
+              onChanged: (value) =>
+                  context.read<CreateOrderCubit>().priceChanged(value),
+              onTapOutside: (event) =>
+                  FocusManager.instance.primaryFocus?.unfocus(),
+              decoration: TextFiledInputDecorations(
+                hintText: 'Введіть суму',
+                errorText: state.price.error,
+              ).inputDecoration,
+              keyboardType: TextInputType.number,
+            );
+          },
         ),
       ],
     );
@@ -231,13 +253,12 @@ class DatePickerFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final cubit = context.read<CreateOrderCubit>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: Text(
             'Дедлайн',
             style: textTheme.labelMedium?.copyWith(
@@ -247,28 +268,16 @@ class DatePickerFormWidget extends StatelessWidget {
           ),
         ),
         BlocBuilder<CreateOrderCubit, CreateOrderState>(
+          buildWhen: (prev, curr) => prev.deadline != curr.deadline,
           builder: (context, state) {
             return TextFormField(
               readOnly: true,
-              decoration: const TextFiledInputDecorations(
+              decoration: TextFiledInputDecorations(
                 hintText: 'Оберіть дату',
+                errorText: state.deadline.error,
               ).inputDecoration,
-              controller: TextEditingController(
-                text: state.deadline != null
-                    ? _formatDate(state.deadline!)
-                    : '',
-              ),
-              onTap: () async {
-                final pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: state.deadline ?? DateTime.now(),
-                  firstDate: DateTime(2025),
-                  lastDate: DateTime(2050),
-                );
-                if (pickedDate != null && context.mounted) {
-                  cubit.setDeadline(pickedDate);
-                }
-              },
+              initialValue: state.deadline.value.ddMMyyyy,
+              onTap: () => _pickDate(context, state),
             );
           },
         ),
@@ -276,8 +285,22 @@ class DatePickerFormWidget extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.day}.${date.month}.${date.year}';
+  Future<void> _pickDate(
+    BuildContext context,
+    CreateOrderState state,
+  ) async {
+    final cubit = context.read<CreateOrderCubit>();
+
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: state.deadline.value,
+      firstDate: DateTime(2025),
+      lastDate: DateTime(2050),
+    );
+
+    if (pickedDate != null && context.mounted) {
+      cubit.deadlineChanged(pickedDate);
+    }
   }
 }
 
@@ -286,28 +309,42 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => context.pushNamed(ConfirmOrderScreen.name),
-      style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.white,
-        backgroundColor: AppColors.primaryColor,
-        side: const BorderSide(
-          color: AppColors.mainDarkBlue,
-          width: 1.5,
+    return BlocListener<CreateOrderCubit, CreateOrderState>(
+      listenWhen: (prev, curr) => prev.status != curr.status,
+      listener: (context, state) {
+        if (state.status == SubmitStatus.success) {
+          final data = context.read<CreateOrderCubit>().buildOrderDto();
+          context.pushNamed(
+            OrderConfirmationScreen.name,
+            extra: data,
+          );
+        }
+      },
+      child: ElevatedButton(
+        onPressed: () {
+          context.read<CreateOrderCubit>().submit();
+        },
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Colors.white,
+          backgroundColor: AppColors.primaryColor,
+          side: const BorderSide(
+            color: AppColors.mainDarkBlue,
+            width: 1.5,
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          elevation: 4,
+          shadowColor: AppColors.primaryColor,
         ),
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
-        elevation: 4,
-        shadowColor: AppColors.primaryColor,
-      ),
-      child: Text(
-        'Продовжити',
-        style: GoogleFonts.roboto(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.5,
+        child: Text(
+          'Продовжити',
+          style: GoogleFonts.roboto(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
+          ),
         ),
       ),
     );

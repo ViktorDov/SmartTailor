@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:smart_tailor/presentation/constants/app_colors.dart';
-// import 'package:google_fonts/google_fonts.dart';
+// import 'package:smart_tailor/presentation/constants/app_colors.dart';
 
 class CustomAppBarWidget extends StatelessWidget
     implements PreferredSizeWidget {
   final String title;
-  final VoidCallback onPressed;
-  final bool centerTitle;
+  final VoidCallback onLeadingButtonPress;
   final List<Widget>? actions;
   final Widget? leading;
   const CustomAppBarWidget({
     super.key,
     required this.title,
-    required this.onPressed,
-    this.centerTitle = true,
+    required this.onLeadingButtonPress,
     this.actions,
     this.leading,
   });
@@ -28,29 +25,37 @@ class CustomAppBarWidget extends StatelessWidget
         title,
         style: const TextStyle(fontSize: 20, fontWeight: .w600),
       ),
-      centerTitle: centerTitle,
       actions: actions,
-      backgroundColor: Colors.white,
-      foregroundColor: AppColors.mainDarkBlue,
       animateColor: true,
-      leading: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 9, 9, 9),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              width: 2.3,
-              color: AppColors.mainDarkBlue,
-            ),
+      leading: _BackButton(onPress: onLeadingButtonPress),
+    );
+  }
+}
+
+class _BackButton extends StatelessWidget {
+  final VoidCallback onPress;
+  const _BackButton({required this.onPress});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.secondary;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 9, 9, 9),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            width: 2.3,
+            color: color,
           ),
-          child: IconButton(
-            iconSize: 22,
-            color: AppColors.mainDarkBlue,
-            onPressed: onPressed,
-            icon: const Icon(
-              Icons.arrow_back,
-              fill: 1,
-            ),
+        ),
+        child: IconButton(
+          iconSize: 22,
+          onPressed: onPress,
+          icon: Icon(
+            color: color,
+            Icons.arrow_back,
+            fill: 1,
           ),
         ),
       ),

@@ -20,15 +20,25 @@ class OrderTypeCubit extends Cubit<OrderTypeState> {
   Future<void> getOrdersType() async {
     emit(state.copyWith(orderTypeStatus: OrderTypeStatus.loading));
     final listOrderTypes = await _serviceDataProvider.getService();
-    emit(state.copyWith(orderTypeList: listOrderTypes));
-    _serviceDataProvider.closeBox(); // bad practics
+    emit(
+      state.copyWith(
+        orderTypeList: listOrderTypes,
+        orderTypeStatus: OrderTypeStatus.loaded,
+      ),
+    );
   }
 
   void onIncrementOrderType(int index) {
     final updated = List<OrderTypeCard>.from(state.orderTypeList);
     final current = updated[index];
     updated[index] = current.copyWith(count: current.count + 1);
-    emit(state.copyWith(orderTypeList: updated));
+    emit(
+      state.copyWith(
+        orderTypeList: updated,
+        orderTypeStatus: OrderTypeStatus.initial,
+        errorMessage: null,
+      ),
+    );
   }
 
   void onDecrementOrderType(int index) {
@@ -36,39 +46,36 @@ class OrderTypeCubit extends Cubit<OrderTypeState> {
     final current = updated[index];
     if (current.count > 0) {
       updated[index] = current.copyWith(count: current.count - 1);
-      emit(state.copyWith(orderTypeList: updated));
+      emit(
+        state.copyWith(
+          orderTypeList: updated,
+          errorMessage: null,
+        ),
+      );
     }
   }
 
   Future<void> onTapButtonOrderType() async {
-    _resetStatus();
-    if (_selectedOrderTypes.isEmpty) {
+    final selected = _selectedOrderTypes;
+
+    if (selected.isEmpty) {
       emit(
         state.copyWith(
           errorMessage: 'Будь ласка виберіть тип замовлення',
           orderTypeStatus: OrderTypeStatus.error,
         ),
       );
-      return;
+    } else {
+      emit(
+        state.copyWith(
+          orderTypeStatus: OrderTypeStatus.success,
+          errorMessage: null,
+          selectedOrders: selected,
+        ),
+      );
     }
-    emit(
-      state.copyWith(
-        orderTypeStatus: OrderTypeStatus.success,
-        selectedOrders: _selectedOrderTypes,
-      ),
-    );
-    _resetStatus();
   }
 
   List<OrderTypeCard> get _selectedOrderTypes =>
       state.orderTypeList.where((e) => e.count >= 1).toList();
-
-  void _resetStatus() {
-    emit(
-      state.copyWith(
-        errorMessage: null,
-        orderTypeStatus: OrderTypeStatus.initial,
-      ),
-    );
-  }
 }

@@ -7,15 +7,15 @@ import 'package:smart_tailor/domain/entity/order_type_card.dart';
 
 class Order {
   final String customerName;
-  final String customerSecondName;
+  final String customerMiddleName;
   final List<OrderTypeCard> orderType;
-  final int phoneNumber;
+  final String phoneNumber;
   final int prise;
   final DateTime deadline;
   final String assignedMaster;
   Order({
     required this.customerName,
-    required this.customerSecondName,
+    required this.customerMiddleName,
     required this.orderType,
     required this.phoneNumber,
     required this.prise,
@@ -26,9 +26,9 @@ class Order {
   factory Order.empty(List<OrderTypeCard> orderType) {
     return Order(
       customerName: 'customerName',
-      customerSecondName: 'customerSecondName',
+      customerMiddleName: 'customerSecondName',
       orderType: orderType,
-      phoneNumber: 1,
+      phoneNumber: '1',
       prise: 1,
       deadline: DateTime.now(),
       assignedMaster: 'assignedMaster',
@@ -39,14 +39,14 @@ class Order {
     String? customerName,
     String? customerSecondName,
     List<OrderTypeCard>? orderType,
-    int? phoneNumber,
+    String? phoneNumber,
     int? prise,
     DateTime? deadline,
     String? assignedMaster,
   }) {
     return Order(
       customerName: customerName ?? this.customerName,
-      customerSecondName: customerSecondName ?? this.customerSecondName,
+      customerMiddleName: customerSecondName ?? this.customerMiddleName,
       orderType: orderType ?? this.orderType,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       prise: prise ?? this.prise,
@@ -58,7 +58,7 @@ class Order {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'customerName': customerName,
-      'customerSecondName': customerSecondName,
+      'customerSecondName': customerMiddleName,
       'orderType': orderType.map((x) => x.toMap()).toList(),
       'phoneNumber': phoneNumber,
       'prise': prise,
@@ -70,13 +70,13 @@ class Order {
   factory Order.fromMap(Map<String, dynamic> map) {
     return Order(
       customerName: map['customerName'] as String,
-      customerSecondName: map['customerSecondName'] as String,
+      customerMiddleName: map['customerSecondName'] as String,
       orderType: List<OrderTypeCard>.from(
         (map['orderType'] as List<int>).map<OrderTypeCard>(
           (x) => OrderTypeCard.fromMap(x as Map<String, dynamic>),
         ),
       ),
-      phoneNumber: map['phoneNumber'] as int,
+      phoneNumber: map['phoneNumber'] as String,
       prise: map['prise'] as int,
       deadline: DateTime.fromMillisecondsSinceEpoch(map['deadline'] as int),
       assignedMaster: map['assignedMaster'] as String,
@@ -90,7 +90,7 @@ class Order {
 
   @override
   String toString() {
-    return 'Order(customerName: $customerName, customerSecondName: $customerSecondName, orderType: $orderType, phoneNumber: $phoneNumber, prise: $prise, deadline: $deadline, assignedMaster: $assignedMaster)';
+    return 'Order(customerName: $customerName, customerSecondName: $customerMiddleName, orderType: $orderType, phoneNumber: $phoneNumber, prise: $prise, deadline: $deadline, assignedMaster: $assignedMaster)';
   }
 
   @override
@@ -98,22 +98,11 @@ class Order {
     if (identical(this, other)) return true;
 
     return other.customerName == customerName &&
-        other.customerSecondName == customerSecondName &&
+        other.customerMiddleName == customerMiddleName &&
         listEquals(other.orderType, orderType) &&
         other.phoneNumber == phoneNumber &&
         other.prise == prise &&
         other.deadline == deadline &&
         other.assignedMaster == assignedMaster;
-  }
-
-  @override
-  int get hashCode {
-    return customerName.hashCode ^
-        customerSecondName.hashCode ^
-        orderType.hashCode ^
-        phoneNumber.hashCode ^
-        prise.hashCode ^
-        deadline.hashCode ^
-        assignedMaster.hashCode;
   }
 }

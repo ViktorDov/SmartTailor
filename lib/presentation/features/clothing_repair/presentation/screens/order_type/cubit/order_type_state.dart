@@ -1,6 +1,6 @@
 part of 'order_type_cubit.dart';
 
-enum OrderTypeStatus { initial, success, error, loading }
+enum OrderTypeStatus { initial, success, error, loading, loaded }
 
 class OrderTypeState extends Equatable {
   final List<OrderTypeCard> orderTypeList;

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../constants/app_colors.dart';
-
 class CustomButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
@@ -15,19 +13,8 @@ class CustomButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: onPressed,
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
-        foregroundColor: WidgetStateProperty.all(AppColors.appBarTextColor),
-        minimumSize: WidgetStateProperty.all(const Size(340, 65)),
-        shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-      ),
       child: Text(
         text,
-        style: const TextStyle(fontSize: 20),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_tailor/presentation/features/clothing_repair/presentation/theme/app_theme.dart';
 
 import 'navigation/navigation.dart';
 
@@ -9,12 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-        ),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.light(),
       routerConfig: Navigation.router,
     );
   }

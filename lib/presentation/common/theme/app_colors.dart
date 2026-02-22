@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+abstract class AppColors {
+  static const Color background = Color(0xFFF5F6FA);
   static const Color primaryColor = Color(0xFF2D9CDB); // Основний синій
   static const Color secondaryColor = Color(0xFFF2C94C); // Додатковий жовтий
   static const Color backgroundColor = Color(0xFFF9F9F9); // Фон
@@ -13,9 +14,7 @@ class AppColors {
     37,
     61,
     127,
-  ); // Колір App Bar
+  ); // secondaryLightColor
   static const Color appBarTextColor = Color(0xFFFFFFFF);
   static const Color blueSelectedColor = Color(0xFFE3F2FD);
-
-  // Текст на App Bar
 }

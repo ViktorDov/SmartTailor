@@ -23,7 +23,7 @@ class _OrderTypeScreenState extends State<OrderTypeScreen> {
     return Scaffold(
       appBar: CustomAppBarWidget(
         title: 'Тип замовлення',
-        onPressed: () => context.goNamed(HomeScreen.name),
+        onLeadingButtonPress: () => context.goNamed(HomeScreen.name),
       ),
       body: BlocProvider<OrderTypeCubit>(
         create: (context) => OrderTypeCubit(),
@@ -82,16 +82,22 @@ class OrderTypeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<OrderTypeCubit, OrderTypeState>(
-      listener: (BuildContext context, state) {
-        if (state.orderTypeStatus == OrderTypeStatus.success &&
-            state.errorMessage == null) {
+      listenWhen: (prev, curr) =>
+          (prev.orderTypeStatus != curr.orderTypeStatus) ||
+          (prev.errorMessage != curr.errorMessage),
+      listener: (context, state) {
+        if (state.orderTypeStatus == OrderTypeStatus.success) {
           context.pushNamed(
             OrderFormScreen.name,
             extra: state.selectedOrders,
           );
+        } else if (state.orderTypeStatus == OrderTypeStatus.error &&
+            state.errorMessage != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage!)),
+          );
         }
       },
-      listenWhen: (prev, curr) => prev.orderTypeStatus != curr.orderTypeStatus,
       child: Column(
         children: [
           ElevatedButton(
